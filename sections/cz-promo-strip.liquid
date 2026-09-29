@@ -1,0 +1,50 @@
+{%- liquid
+  assign hide = false
+  if section.settings.title contains '[threshold]' and settings.free_shipping_threshold == 0
+    assign hide = true
+  endif
+  assign threshold_label = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+  assign title = section.settings.title | replace: '[threshold]', threshold_label
+-%}
+{%- unless hide -%}
+  <div class="page-width section">
+    {%- if section.settings.link != blank -%}<a class="promo-strip" href="{{ section.settings.link }}">{%- else -%}<div class="promo-strip">{%- endif -%}
+      <span class="promo-strip__icon">{% render 'icon', name: section.settings.icon, size: 28 %}</span>
+      <span>
+        <strong>{{ title | escape }}</strong>
+        {%- if section.settings.subtitle != blank -%}<span>{{ section.settings.subtitle | escape }}</span>{%- endif -%}
+      </span>
+    {%- if section.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+  </div>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Promo strip",
+  "class": "section-promo",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "شحن مجاني فوق [threshold]",
+      "info": "[threshold] is replaced by the free-shipping threshold from theme settings."
+    },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "كمّلي روتينك ووفّري الشحن" },
+    { "type": "url", "id": "link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "truck", "label": "Truck" },
+        { "value": "gift", "label": "Gift" },
+        { "value": "cod", "label": "Cash" },
+        { "value": "sparkle", "label": "Sparkle" }
+      ],
+      "default": "truck"
+    }
+  ],
+  "presets": [{ "name": "Promo strip" }]
+}
+{% endschema %}

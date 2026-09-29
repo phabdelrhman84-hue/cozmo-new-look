@@ -1,0 +1,65 @@
+<div class="page-width narrow" style="padding-block:24px 40px">
+  <h1 class="page-title">{{ 'customer.login' | t }}</h1>
+
+  <div id="RecoverForm" hidden>
+    <div class="form-card">
+      {%- form 'recover_customer_password' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-message" role="status">{{ 'customer.reset_sent' | t }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}<div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <h2 style="font-size:18px;margin-bottom:12px">{{ 'customer.reset' | t }}</h2>
+        <div class="field">
+          <label for="RecoverEmail">{{ 'customer.email' | t }}</label>
+          <input id="RecoverEmail" type="email" name="email" autocomplete="email" required>
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">{{ 'customer.reset' | t }}</button>
+        <p style="margin-top:12px;text-align:center"><a href="#login" onclick="document.getElementById('RecoverForm').hidden=true;document.getElementById('LoginForm').hidden=false;return false;">{{ 'customer.cancel' | t }}</a></p>
+      {%- endform -%}
+    </div>
+  </div>
+
+  <div id="LoginForm">
+    <div class="form-card">
+      {%- form 'customer_login' -%}
+        {%- if form.errors -%}<div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="field">
+          <label for="CustomerEmail">{{ 'customer.email' | t }}</label>
+          <input id="CustomerEmail" type="email" name="customer[email]" autocomplete="email" required>
+        </div>
+        {%- if form.password_needed -%}
+          <div class="field">
+            <label for="CustomerPassword">{{ 'customer.password' | t }}</label>
+            <input id="CustomerPassword" type="password" name="customer[password]" autocomplete="current-password" required>
+          </div>
+          <p style="margin-bottom:14px"><a href="#recover" onclick="document.getElementById('RecoverForm').hidden=false;document.getElementById('LoginForm').hidden=true;return false;">{{ 'customer.forgot' | t }}</a></p>
+        {%- endif -%}
+        <button type="submit" class="btn btn--primary btn--block">{{ 'customer.login' | t }}</button>
+      {%- endform -%}
+    </div>
+    <p style="text-align:center;margin-top:16px"><a href="{{ routes.account_register_url }}">{{ 'customer.register' | t }}</a></p>
+  </div>
+
+  {%- if shop.checkout.guest_login -%}
+    <div class="form-card" style="margin-top:16px">
+      {%- form 'guest_login' -%}
+        <button type="submit" class="btn btn--secondary btn--block">{{ 'cart.checkout' | t }}</button>
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  if (window.location.hash === '#recover') {
+    document.getElementById('RecoverForm').hidden = false;
+    document.getElementById('LoginForm').hidden = true;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Login",
+  "class": "section-main-login",
+  "settings": []
+}
+{% endschema %}

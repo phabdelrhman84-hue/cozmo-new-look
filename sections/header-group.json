@@ -1,0 +1,25 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "msg1": { "type": "announcement", "settings": { "text": "شحن 75 ج.م لكل المحافظات", "link": "" } },
+        "msg2": { "type": "announcement", "settings": { "text": "الدفع عند الاستلام", "link": "" } }
+      },
+      "block_order": ["msg1", "msg2"],
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "sticky": false,
+        "show_search": true,
+        "search_placeholder": "دوّري بمنتج أو مشكلة: تساقط، هيشان، بقع…"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

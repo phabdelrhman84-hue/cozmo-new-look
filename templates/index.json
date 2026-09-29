@@ -1,0 +1,84 @@
+{
+  "sections": {
+    "hero": {
+      "type": "cz-hero",
+      "settings": {
+        "eyebrow": "روتين الترميم الألماني",
+        "heading": "شعرك تالف من الصبغة؟",
+        "heading_highlight": "رجّعيه من جوّه",
+        "text": "منتجات أصلية مختارة بعين صيدلي، لكل مشكلة روتين واضح.",
+        "button_label": "اكتشفي روتينك",
+        "button_link": "",
+        "tick_1": "أصلي 100%",
+        "tick_2": "استرجاع 14 يوم",
+        "tick_3": "دفع عند الاستلام"
+      }
+    },
+    "concerns": {
+      "type": "cz-concerns",
+      "blocks": {
+        "c1": { "type": "concern", "settings": { "label": "تالف من الصبغة", "icon": "hair-damage", "tone": "hair", "link": "" } },
+        "c2": { "type": "concern", "settings": { "label": "تساقط وتطويل", "icon": "hair-fall", "tone": "hair", "link": "" } },
+        "c3": { "type": "concern", "settings": { "label": "هيشان وتقصف", "icon": "frizz", "tone": "hair", "link": "" } },
+        "c4": { "type": "concern", "settings": { "label": "بقع وتصبغات", "icon": "spots", "tone": "skin", "link": "" } },
+        "c5": { "type": "concern", "settings": { "label": "دهنية وحبوب", "icon": "drop", "tone": "skin", "link": "" } },
+        "c6": { "type": "concern", "settings": { "label": "بشرة حساسة", "icon": "leaf", "tone": "skin", "link": "" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"],
+      "settings": {
+        "heading": "تسوقي حسب مشكلتك",
+        "link_label": "الكل",
+        "link": ""
+      }
+    },
+    "promo": {
+      "type": "cz-promo-strip",
+      "settings": {
+        "title": "شحن مجاني فوق [threshold]",
+        "subtitle": "كمّلي روتينك ووفّري الشحن",
+        "icon": "truck"
+      }
+    },
+    "bestsellers": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "الأكثر مبيعًا",
+        "subheading": "",
+        "limit": 4,
+        "show_view_all": true
+      }
+    },
+    "routines": {
+      "type": "cz-routines",
+      "settings": {
+        "heading": "روتينات جاهزة بسعر أوفر",
+        "subheading": "اخترناهم مع بعض عشان النتيجة تبان أسرع",
+        "limit": 6
+      }
+    },
+    "why": {
+      "type": "cz-why-us",
+      "blocks": {
+        "w1": { "type": "item", "settings": { "icon": "shield", "title": "أصلي 100%", "text": "باتش كود على كل منتج تقدري تتأكدي منه" } },
+        "w2": { "type": "item", "settings": { "icon": "pharmacist", "title": "صيدلي بيرد عليكي", "text": "استشارة مجانية قبل ما تشتري" } },
+        "w3": { "type": "item", "settings": { "icon": "cod", "title": "الدفع عند الاستلام", "text": "مش هتدفعي غير لما الطلب يوصلك" } },
+        "w4": { "type": "item", "settings": { "icon": "returns", "title": "استرجاع 14 يوم", "text": "لو المنتج مش مناسب، بنرجّعه" } }
+      },
+      "block_order": ["w1", "w2", "w3", "w4"],
+      "settings": { "heading": "ليه Cozmo Station؟" }
+    },
+    "pharmacist": {
+      "type": "cz-pharmacist",
+      "settings": {
+        "heading": "محتارة تختاري إيه؟ اسألي الصيدلي",
+        "text": "ابعتيلنا نوع شعرك أو بشرتك ومشكلتك، ونرشحلك روتين مناسب لميزانيتك.",
+        "button_label": "كلّمينا على واتساب"
+      }
+    },
+    "reviews": {
+      "type": "cz-testimonials",
+      "settings": { "heading": "آراء عميلاتنا" }
+    }
+  },
+  "order": ["hero", "concerns", "promo", "bestsellers", "routines", "why", "pharmacist", "reviews"]
+}

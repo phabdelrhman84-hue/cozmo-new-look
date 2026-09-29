@@ -1,0 +1,150 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign logo_width = settings.logo_width
+-%}
+<header class="site-header{% if section.settings.sticky %} site-header--sticky{% endif %}" style="--logo-width: {{ logo_width }}px;">
+  <div class="site-header__bar">
+    <div class="site-header__start">
+      <button
+        type="button"
+        class="icon-btn site-header__menu-toggle"
+        aria-label="{{ 'general.menu' | t }}"
+        aria-controls="MenuDrawer"
+        aria-expanded="false"
+        data-cz-panel-open="MenuDrawer"
+      >
+        {% render 'icon', name: 'menu' %}
+      </button>
+    </div>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo">
+      {%- if settings.logo != blank -%}
+        {{
+          settings.logo
+          | image_url: width: 500
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '160, 240, 320, 500',
+            sizes: '160px',
+            alt: shop.name
+        }}
+      {%- else -%}
+        <span class="site-header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- if menu != blank -%}
+      <nav class="site-header__nav" aria-label="{{ 'general.menu' | t }}">
+        {%- for link in menu.links -%}
+          <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+
+    <div class="site-header__end">
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="icon-btn" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="{{ 'customer.account' | t }}">
+          {% render 'icon', name: 'user', size: 22 %}
+        </a>
+      {%- endif -%}
+      <a class="icon-btn" href="{{ routes.cart_url }}" data-cz-cart-open aria-label="{{ 'cart.title' | t }}">
+        {% render 'icon', name: 'cart' %}
+        <span class="cart-count" data-cz-cart-count aria-label="{{ 'accessibility.cart_count' | t }}"{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+
+  {%- if section.settings.show_search -%}
+    <div class="site-header__search">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-pill">
+        <label for="HeaderSearch" class="visually-hidden">{{ 'general.search' | t }}</label>
+        <button type="submit" aria-label="{{ 'general.search' | t }}">{% render 'icon', name: 'search', size: 20 %}</button>
+        <input
+          id="HeaderSearch"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{% if section.settings.search_placeholder != blank %}{{ section.settings.search_placeholder | escape }}{% else %}{{ 'general.search_placeholder' | t }}{% endif %}"
+          autocomplete="off"
+        >
+        <input type="hidden" name="options[prefix]" value="last">
+      </form>
+    </div>
+  {%- endif -%}
+</header>
+
+<div id="MenuDrawer" class="menu-drawer" data-cz-panel hidden>
+  <div class="menu-drawer__overlay" data-cz-panel-close></div>
+  <div class="menu-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'general.menu' | t }}">
+    <div class="menu-drawer__head">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 240 | image_tag: loading: 'lazy', style: 'width:110px;height:auto', alt: shop.name }}
+      {%- else -%}
+        <strong>{{ shop.name }}</strong>
+      {%- endif -%}
+      <button type="button" class="icon-btn" data-cz-panel-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <nav class="menu-drawer__nav">
+      {%- for link in menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <details>
+            <summary>{{ link.title | escape }} {% render 'icon', name: 'chevron', size: 18 %}</summary>
+            <div class="menu-drawer__sub">
+              <a href="{{ link.url }}">{{ 'general.view_all' | t }}</a>
+              {%- for child in link.links -%}
+                <a href="{{ child.url }}">{{ child.title | escape }}</a>
+              {%- endfor -%}
+            </div>
+          </details>
+        {%- else -%}
+          <a href="{{ link.url }}">{{ link.title | escape }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+    <div class="menu-drawer__footer">
+      {%- if settings.whatsapp_number != blank -%}
+        <a class="btn btn--secondary btn--block" href="https://wa.me/{{ settings.whatsapp_number | remove: '+' | remove: ' ' }}?text={{ settings.whatsapp_message | url_encode }}" target="_blank" rel="noopener">
+          {% render 'icon', name: 'chat', size: 20 %} {{ 'products.ask_pharmacist' | t }}
+        </a>
+      {%- endif -%}
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="btn btn--light btn--block" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{% render 'icon', name: 'user', size: 20 %} {{ 'customer.account' | t }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search bar under the header",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "دوّري بمنتج أو مشكلة: تساقط، هيشان، بقع…"
+    }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

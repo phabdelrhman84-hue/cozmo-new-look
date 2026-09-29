@@ -1,0 +1,427 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign p_title = product.metafields.custom.short_title.value | default: product.title
+  assign for_who = product.metafields.custom.for_who.value
+  assign size_label = product.metafields.custom.size.value
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+
+  assign bundle = nil
+  if section.settings.show_bundle_offer
+    assign bundle_candidate = product.metafields.custom.bundle_product.value
+    if bundle_candidate != blank and bundle_candidate.available and bundle_candidate.id != product.id
+      assign bundle = bundle_candidate
+    endif
+  endif
+
+  assign show_double = false
+  if section.settings.show_two_units and settings.two_units_discount > 0
+    assign show_double = true
+  endif
+
+  assign has_offers = false
+  if bundle != nil or show_double
+    assign has_offers = true
+  endif
+
+  assign default_offer = 'single'
+  if bundle != nil and section.settings.default_offer == 'bundle'
+    assign default_offer = 'bundle'
+  elsif show_double and section.settings.default_offer == 'double'
+    assign default_offer = 'double'
+  endif
+
+  assign wa_number = settings.whatsapp_number | remove: '+' | remove: ' '
+  assign wa_text = 'products.whatsapp_product' | t: product: product.title
+
+  assign keep_pct = 100 | minus: settings.two_units_discount
+  assign double_price = current_variant.price | times: 2 | times: keep_pct | divided_by: 100
+  assign double_compare = current_variant.price | times: 2
+
+  assign selected_price = current_variant.price
+  assign selected_label = 'products.single_unit' | t
+  if default_offer == 'bundle'
+    assign selected_price = bundle.price
+    assign selected_label = bundle.metafields.custom.short_title.value | default: bundle.title
+  elsif default_offer == 'double'
+    assign selected_price = double_price
+    assign selected_label = 'products.two_units' | t
+  endif
+-%}
+
+<div
+  class="page-width product-page"
+  data-cz-product
+  data-two-discount="{{ settings.two_units_discount }}"
+>
+  <script type="application/json" data-cz-product-json>{{ product | json }}</script>
+
+  <div class="product">
+    {%- comment -%} ---------- Gallery ---------- {%- endcomment -%}
+    <div class="gallery" data-cz-gallery>
+      <div class="gallery__badges">
+        {%- for tag in product.tags -%}
+          {%- if tag contains 'badge:' -%}
+            <span class="badge">{{ tag | remove_first: 'badge:' | strip }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if product.compare_at_price > product.price -%}
+          {%- assign off = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+          {%- if off > 0 -%}<span class="badge badge--sale">-{{ off }}%</span>{%- endif -%}
+        {%- endif -%}
+      </div>
+      <ul class="gallery__track" data-cz-gallery-track role="list">
+        {%- for media in product.media -%}
+          <li class="gallery__slide" data-media-id="{{ media.id }}">
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                {%- liquid
+                  assign img_loading = 'lazy'
+                  if forloop.first
+                    assign img_loading = 'eager'
+                  endif
+                -%}
+                {{
+                  media
+                  | image_url: width: 1400
+                  | image_tag:
+                    loading: img_loading,
+                    widths: '400, 600, 800, 1000, 1400',
+                    sizes: '(min-width: 990px) 55vw, 100vw',
+                    alt: media.alt
+                    | default: p_title
+                }}
+              {%- when 'video' -%}
+                {{ media | video_tag: controls: true, playsinline: true, preload: 'metadata' }}
+              {%- when 'external_video' -%}
+                {{ media | external_video_tag }}
+              {%- else -%}
+                {{ media | media_tag }}
+            {%- endcase -%}
+          </li>
+        {%- else -%}
+          <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag }}</li>
+        {%- endfor -%}
+      </ul>
+      {%- if product.media.size > 1 -%}
+        <div class="gallery__dots">
+          {%- for media in product.media -%}
+            <button type="button" class="gallery__dot{% if forloop.first %} is-active{% endif %}" aria-label="{{ 'accessibility.slide' | t: index: forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+        <div class="gallery__thumbs">
+          {%- for media in product.media limit: 8 -%}
+            <button type="button" data-cz-thumb class="{% if forloop.first %}is-active{% endif %}" aria-label="{{ 'accessibility.slide' | t: index: forloop.index }}">
+              {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ---------- Buy box ---------- {%- endcomment -%}
+    <div class="product__info">
+      <div class="product__brand">
+        {%- if product.vendor != blank -%}<span dir="auto">{{ product.vendor }}</span>{%- endif -%}
+        {%- if size_label != blank %} · {{ size_label }}{% endif -%}
+      </div>
+      <h1 class="product__title">{{ p_title | escape }}</h1>
+      {%- if for_who != blank -%}<p class="product__for">{{ for_who | escape }}</p>{%- endif -%}
+
+      {%- if rating != blank and rating_count > 0 -%}
+        <a href="#Reviews" class="product__rating">
+          <span class="stars">
+            {%- assign r = rating.rating | round -%}
+            {%- for i in (1..5) -%}{% if i <= r %}★{% else %}☆{% endif %}{%- endfor -%}
+          </span>
+          <span>{{ rating.rating | round: 1 }} · {{ rating_count }}</span>
+        </a>
+      {%- endif -%}
+
+      <div>
+        {% render 'price', product: product, variant: current_variant, size: 'lg' %}
+        {%- if settings.shipping_fee > 0 -%}
+          <p class="product__shipnote">{{ 'products.plus_shipping' | t: fee: settings.shipping_fee }} · {{ settings.cod_note }}</p>
+        {%- else -%}
+          <p class="product__shipnote">{{ settings.cod_note }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- form 'product', product, data-cz-product-form: '', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            {%- assign option_index = forloop.index0 -%}
+            <fieldset class="variant-picker" data-cz-option>
+              <legend>{{ option.name }}</legend>
+              <div class="variant-picker__options">
+                {%- for value in option.values -%}
+                  <label class="variant-pill">
+                    <input
+                      type="radio"
+                      name="option-{{ option_index }}"
+                      value="{{ value | escape }}"
+                      {% if option.selected_value == value %}checked{% endif %}
+                    >
+                    <span>{{ value }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        {%- if has_offers -%}
+          <fieldset class="offers">
+            <legend>{{ 'products.choose_offer' | t }}</legend>
+
+            <label class="offer" data-offer="single">
+              <input type="radio" name="cz-offer" value="single" {% if default_offer == 'single' %}checked{% endif %}>
+              <span class="offer__body">
+                <strong data-offer-name>{{ 'products.single_unit' | t }}</strong>
+                {%- if size_label != blank -%}<span>{{ size_label }}</span>{%- endif -%}
+              </span>
+              <span class="offer__price">
+                <strong data-offer-price>{{ current_variant.price | money_without_trailing_zeros }}</strong>
+                <s data-offer-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{{ current_variant.compare_at_price | money_without_trailing_zeros }}</s>
+              </span>
+            </label>
+
+            {%- if bundle != nil -%}
+              {%- assign b_title = bundle.metafields.custom.short_title.value | default: bundle.title -%}
+              {%- assign b_variant = bundle.selected_or_first_available_variant -%}
+              <label class="offer" data-offer="bundle" data-variant="{{ b_variant.id }}" data-price="{{ b_variant.price }}">
+                {%- if section.settings.flag_label != blank -%}
+                  <span class="badge badge--primary offer__flag">{{ section.settings.flag_label | escape }}</span>
+                {%- endif -%}
+                <input type="radio" name="cz-offer" value="bundle" {% if default_offer == 'bundle' %}checked{% endif %}>
+                {%- if bundle.featured_media -%}
+                  {{ bundle.featured_media | image_url: width: 100 | image_tag: class: 'offer__thumb', loading: 'lazy', alt: '' }}
+                {%- endif -%}
+                <span class="offer__body">
+                  <strong data-offer-name>{{ b_title | escape }}</strong>
+                  {%- if b_variant.compare_at_price > b_variant.price -%}
+                    {%- assign b_save = b_variant.compare_at_price | minus: b_variant.price | money_without_trailing_zeros -%}
+                    <span>{{ 'products.save' | t: amount: b_save }}</span>
+                  {%- endif -%}
+                </span>
+                <span class="offer__price">
+                  <strong>{{ b_variant.price | money_without_trailing_zeros }}</strong>
+                  {%- if b_variant.compare_at_price > b_variant.price -%}<s>{{ b_variant.compare_at_price | money_without_trailing_zeros }}</s>{%- endif -%}
+                </span>
+              </label>
+            {%- endif -%}
+
+            {%- if show_double -%}
+              <label class="offer" data-offer="double">
+                {%- if bundle == nil and section.settings.flag_label != blank -%}
+                  <span class="badge badge--primary offer__flag">{{ section.settings.flag_label | escape }}</span>
+                {%- endif -%}
+                <input type="radio" name="cz-offer" value="double" {% if default_offer == 'double' %}checked{% endif %}>
+                <span class="offer__body">
+                  <strong data-offer-name>{{ 'products.two_units' | t }}</strong>
+                  <span>{{ 'products.two_units_note' | t: percent: settings.two_units_discount }}</span>
+                </span>
+                <span class="offer__price">
+                  <strong data-offer-price>{{ double_price | money_without_trailing_zeros }}</strong>
+                  <s data-offer-compare>{{ double_compare | money_without_trailing_zeros }}</s>
+                </span>
+              </label>
+            {%- endif -%}
+          </fieldset>
+        {%- else -%}
+          <input type="hidden" name="cz-offer" value="single">
+        {%- endif -%}
+
+        {%- if section.settings.show_ship_bar -%}
+          {%- assign bar_total = cart.total_price | plus: selected_price -%}
+          <div style="margin-top:12px">{% render 'free-shipping-bar', total: bar_total, live: true %}</div>
+        {%- endif -%}
+
+        <div class="product__buttons" data-cz-main-buttons>
+          {%- if current_variant.available -%}
+            <button type="submit" class="btn btn--primary btn--lg btn--block" data-cz-buy="checkout" data-label="{{ section.settings.buy_label | escape }}">{{ section.settings.buy_label | escape }}</button>
+            <button type="submit" class="btn btn--secondary btn--block" data-cz-buy="add" data-label="{{ 'products.add_to_cart' | t }}">{{ 'products.add_to_cart' | t }}</button>
+          {%- else -%}
+            <button type="submit" class="btn btn--primary btn--lg btn--block" data-cz-buy="checkout" data-label="{{ section.settings.buy_label | escape }}" aria-disabled="true">{{ 'products.sold_out' | t }}</button>
+            <button type="submit" class="btn btn--secondary btn--block" data-cz-buy="add" data-label="{{ 'products.add_to_cart' | t }}" aria-disabled="true">{{ 'products.sold_out' | t }}</button>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+
+      {%- if section.settings.show_trust -%}
+        <div class="trust-row">
+          <div class="trust-row__item">{% render 'icon', name: 'shield' %}<span>{{ 'products.original' | t }}</span></div>
+          <div class="trust-row__item">{% render 'icon', name: 'returns' %}<span>{{ 'products.returns' | t }}</span></div>
+          {%- if wa_number != blank -%}
+            <a class="trust-row__item" href="https://wa.me/{{ wa_number }}?text={{ wa_text | url_encode }}" target="_blank" rel="noopener">{% render 'icon', name: 'chat' %}<span>{{ 'products.ask_pharmacist' | t }}</span></a>
+          {%- else -%}
+            <div class="trust-row__item">{% render 'icon', name: 'cod' %}<span>{{ settings.cod_note }}</span></div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div {{ block.shopify_attributes }}>{% render block %}</div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} ---------- Details ---------- {%- endcomment -%}
+  <div class="product-details" style="max-width: 820px; margin-inline: auto;">
+    {%- assign benefits = product.metafields.custom.benefits.value -%}
+    {%- if benefits != blank -%}
+      <div class="product__panel">
+        <h2>{{ 'products.benefits' | t }}</h2>
+        <ul class="ticks" role="list">
+          {%- assign lines = benefits | newline_to_br | split: '<br />' -%}
+          {%- for line in lines -%}
+            {%- assign l = line | strip -%}
+            {%- if l != blank -%}
+              <li><span class="ticks__dot">{% render 'icon', name: 'check', size: 13 %}</span><span>{{ l | escape }}</span></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- assign how = product.metafields.custom.how_to_use.value -%}
+    {%- if how != blank -%}
+      <div class="product__block">
+        <h2>{{ 'products.how_to_use' | t }}</h2>
+        <ol class="steps" role="list">
+          {%- assign steps = how | newline_to_br | split: '<br />' -%}
+          {%- assign n = 0 -%}
+          {%- for step in steps -%}
+            {%- assign st = step | strip -%}
+            {%- if st != blank -%}
+              {%- assign n = n | plus: 1 -%}
+              <li><span class="steps__num">{{ n }}</span><span>{{ st | escape }}</span></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ol>
+      </div>
+    {%- endif -%}
+
+    <div class="product__block">
+      {%- if product.description != blank -%}
+        <details class="accordion"{% if section.settings.description_open %} open{% endif %}>
+          <summary>{{ 'products.description' | t }} {% render 'icon', name: 'chevron', size: 18 %}</summary>
+          <div class="accordion__content rte">{{ product.description }}</div>
+        </details>
+      {%- endif -%}
+      {%- if product.metafields.custom.ingredients != blank -%}
+        <details class="accordion">
+          <summary>{{ 'products.ingredients' | t }} {% render 'icon', name: 'chevron', size: 18 %}</summary>
+          <div class="accordion__content rte">{{ product.metafields.custom.ingredients | metafield_tag }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.shipping_text != blank -%}
+        <details class="accordion">
+          <summary>{{ 'products.shipping_returns' | t }} {% render 'icon', name: 'chevron', size: 18 %}</summary>
+          <div class="accordion__content rte">{{ section.settings.shipping_text }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.authenticity_text != blank -%}
+        <details class="accordion">
+          <summary>{{ 'products.authenticity' | t }} {% render 'icon', name: 'chevron', size: 18 %}</summary>
+          <div class="accordion__content rte">{{ section.settings.authenticity_text }}</div>
+        </details>
+      {%- endif -%}
+    </div>
+
+    {%- assign comps = product.metafields.custom.complementary_products.value -%}
+    {%- if comps != blank and section.settings.complementary_limit > 0 -%}
+      <div class="product__block">
+        <h2>{{ 'products.complete_routine' | t }}</h2>
+        {%- for p in comps limit: section.settings.complementary_limit -%}
+          {%- if p.available and p.id != product.id -%}
+            {%- assign c_title = p.metafields.custom.short_title.value | default: p.title -%}
+            <div class="mini-card">
+              <a class="mini-card__img" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+                {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+              </a>
+              <div class="mini-card__body">
+                <a href="{{ p.url }}">{{ c_title | escape }}</a>
+                {%- if p.metafields.custom.for_who != blank -%}<span>{{ p.metafields.custom.for_who.value }}</span>{%- endif -%}
+                <div class="card__price">
+                  <strong>{{ p.price | money_without_trailing_zeros }}</strong>
+                  {%- if p.compare_at_price > p.price -%}<s>{{ p.compare_at_price | money_without_trailing_zeros }}</s>{%- endif -%}
+                </div>
+              </div>
+              <button type="button" class="mini-card__add" data-cz-add-variant="{{ p.selected_or_first_available_variant.id }}" aria-label="{{ 'products.add_to_cart' | t }}: {{ c_title | escape }}">
+                {% render 'icon', name: 'plus', size: 20 %}
+              </button>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div id="Reviews"></div>
+  </div>
+
+  {%- if section.settings.show_sticky -%}
+    <div class="sticky-buy" data-cz-sticky aria-hidden="false">
+      <div class="sticky-buy__info">
+        <strong data-cz-sticky-price>{{ selected_price | money_without_trailing_zeros }}</strong>
+        <span data-cz-sticky-label>{{ selected_label | escape }}</span>
+      </div>
+      <button type="button" class="btn btn--primary" data-cz-buy="checkout" data-label="{{ section.settings.sticky_label | escape }}"{% unless current_variant.available %} aria-disabled="true"{% endunless %}>{{ section.settings.sticky_label | escape }}</button>
+    </div>
+  {%- endif -%}
+</div>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product page",
+  "class": "section-main-product",
+  "blocks": [{ "type": "@app" }],
+  "settings": [
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "buy_label", "label": "Main button label", "default": "اطلبي دلوقتي · الدفع عند الاستلام" },
+    { "type": "text", "id": "sticky_label", "label": "Sticky bar button label", "default": "اطلبي دلوقتي" },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky buy bar on mobile", "default": true },
+    { "type": "header", "content": "Offers" },
+    { "type": "checkbox", "id": "show_bundle_offer", "label": "Show routine/bundle offer", "default": true, "info": "Uses the product metafield custom.bundle_product" },
+    { "type": "checkbox", "id": "show_two_units", "label": "Show \"2 units\" offer", "default": true, "info": "Discount % is in Theme settings. Create a matching automatic discount." },
+    {
+      "type": "select",
+      "id": "default_offer",
+      "label": "Default selected offer",
+      "options": [
+        { "value": "bundle", "label": "Routine / bundle (if available)" },
+        { "value": "single", "label": "Single unit" },
+        { "value": "double", "label": "2 units" }
+      ],
+      "default": "bundle"
+    },
+    { "type": "text", "id": "flag_label", "label": "Highlight badge", "default": "الأوفر" },
+    { "type": "header", "content": "Blocks" },
+    { "type": "checkbox", "id": "show_ship_bar", "label": "Show free-shipping progress", "default": true },
+    { "type": "checkbox", "id": "show_trust", "label": "Show trust row", "default": true },
+    { "type": "checkbox", "id": "description_open", "label": "Open description by default", "default": false },
+    { "type": "range", "id": "complementary_limit", "label": "\"Complete your routine\" products", "min": 0, "max": 4, "step": 1, "default": 2 },
+    { "type": "header", "content": "Accordions" },
+    {
+      "type": "richtext",
+      "id": "shipping_text",
+      "label": "Shipping & returns",
+      "default": "<p>الشحن لكل المحافظات، والدفع عند الاستلام. الاسترجاع خلال 14 يوم.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "authenticity_text",
+      "label": "How to verify it's original",
+      "default": "<p>تقدري تتأكدي من الباتش كود المطبوع على العبوة، ولو عندك أي سؤال ابعتيلنا صورة على واتساب وهنساعدك.</p>"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,34 @@
+<div class="page-width section--spaced">
+  <div class="iwt{% if section.settings.reverse %} iwt--reverse{% endif %}">
+    <div class="iwt__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1200', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.settings.image.alt }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'placeholder' }}
+      {%- endif -%}
+    </div>
+    <div class="iwt__content">
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<div class="rte">{{ section.settings.text }}</div>{%- endif -%}
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a class="btn btn--primary" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "class": "section-iwt",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "checkbox", "id": "reverse", "label": "Image on the other side (desktop)", "default": false },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "إزاي نضمن إن المنتج أصلي؟" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>كل منتج بيوصلك بفاتورة الاستيراد وباتش كود تقدري تتأكدي منه.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Image with text" }]
+}
+{% endschema %}

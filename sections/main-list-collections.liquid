@@ -1,0 +1,29 @@
+<div class="page-width" style="padding-bottom:32px">
+  <h1 class="page-title">{{ 'collections.all' | t }}</h1>
+  <ul class="collection-list" role="list">
+    {%- for c in collections -%}
+      {%- if c.products_count > 0 -%}
+        <li>
+          <a class="collection-tile" href="{{ c.url }}">
+            <div class="collection-tile__img">
+              {%- if c.featured_image -%}
+                {{ c.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: c.title }}
+              {%- elsif c.products.first.featured_media -%}
+                {{ c.products.first.featured_media | image_url: width: 500 | image_tag: loading: 'lazy', alt: c.title }}
+              {%- endif -%}
+            </div>
+            <span>{{ c.title | escape }}</span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list page",
+  "class": "section-main-list-collections",
+  "settings": []
+}
+{% endschema %}

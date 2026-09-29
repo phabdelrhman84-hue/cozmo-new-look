@@ -1,0 +1,227 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Cozmo Station",
+    "theme_version": "1.0.0",
+    "theme_author": "Cozmo Station",
+    "theme_documentation_url": "https://cozmostation.com",
+    "theme_support_url": "https://cozmostation.com"
+  },
+  {
+    "name": "Store & shipping",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Shipping & COD"
+      },
+      {
+        "type": "number",
+        "id": "shipping_fee",
+        "label": "Flat shipping fee (EGP)",
+        "default": 75,
+        "info": "Shown under the price and in the cart. Must match your shipping rate in Settings → Shipping."
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold (EGP)",
+        "default": 1500,
+        "info": "Set 0 to hide free-shipping bars. Create a matching free rate in Settings → Shipping."
+      },
+      {
+        "type": "text",
+        "id": "cod_note",
+        "label": "Cash on delivery note",
+        "default": "الدفع عند الاستلام"
+      },
+      {
+        "type": "range",
+        "id": "two_units_discount",
+        "label": "\"2 units\" offer discount (%)",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "%",
+        "default": 10,
+        "info": "Display only. Create an automatic discount with the same % in Discounts. Set 0 to hide the offer."
+      },
+      {
+        "type": "header",
+        "content": "WhatsApp"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number (international format)",
+        "placeholder": "201xxxxxxxxx",
+        "info": "Used by \"Ask the pharmacist\" links."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Default WhatsApp message",
+        "default": "أهلًا، محتاجة استشارة في روتيني"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_whatsapp_float",
+        "label": "Show floating WhatsApp button",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Cart"
+      },
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "collection",
+        "id": "cart_upsell_collection",
+        "label": "Fallback upsell collection",
+        "info": "Used when cart products have no \"complementary products\" metafield."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary (buy buttons only)",
+        "default": "#C9557F"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Brand pink (accents)",
+        "default": "#E27AA0"
+      },
+      {
+        "type": "color",
+        "id": "color_olive",
+        "label": "Olive (trust, badges, announcement)",
+        "default": "#6E7551"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Page background",
+        "default": "#F8F1EA"
+      },
+      {
+        "type": "color",
+        "id": "color_blush",
+        "label": "Blush surface (product images)",
+        "default": "#F6E4E6"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#2E2B26"
+      },
+      {
+        "type": "color",
+        "id": "color_sale",
+        "label": "Sale badge",
+        "default": "#B3261E"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "text_direction",
+        "label": "Text direction",
+        "options": [
+          { "value": "rtl", "label": "Right to left (Arabic)" },
+          { "value": "ltr", "label": "Left to right" },
+          { "value": "auto", "label": "Follow store language" }
+        ],
+        "default": "rtl"
+      },
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Max page width",
+        "min": 1000,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1280
+      }
+    ]
+  },
+  {
+    "name": "Logo & favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width (mobile)",
+        "min": 80,
+        "max": 220,
+        "step": 2,
+        "unit": "px",
+        "default": 118
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32 × 32px .png recommended"
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "card_show_vendor",
+        "label": "Show brand",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_rating",
+        "label": "Show rating (only when a reviews app provides real data)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_quick_add",
+        "label": "Show add-to-cart button on cards",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "Badges: add a product tag like \"badge:الأكثر مبيعًا\" to show a badge. Sale badges are automatic."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" }
+    ]
+  }
+]

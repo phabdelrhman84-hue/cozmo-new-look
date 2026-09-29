@@ -1,0 +1,44 @@
+<div class="page-width narrow" style="padding-bottom:32px">
+  <h1 class="page-title">{{ page.title | escape }}</h1>
+  {%- if page.content != blank -%}<div class="rte" style="margin-bottom:16px">{{ page.content }}</div>{%- endif -%}
+  {%- if settings.whatsapp_number != blank -%}
+    <a class="btn btn--secondary btn--block" style="margin-bottom:16px" href="https://wa.me/{{ settings.whatsapp_number | remove: '+' | remove: ' ' }}?text={{ settings.whatsapp_message | url_encode }}" target="_blank" rel="noopener">
+      {% render 'icon', name: 'whatsapp', size: 20 %} {{ 'general.whatsapp' | t }}
+    </a>
+  {%- endif -%}
+  <div class="form-card">
+    {%- form 'contact' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-message" role="status">{{ 'contact.success' | t }}</p>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="field">
+        <label for="ContactName">{{ 'contact.name' | t }}</label>
+        <input id="ContactName" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+      </div>
+      <div class="field">
+        <label for="ContactPhone">{{ 'contact.phone' | t }}</label>
+        <input id="ContactPhone" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}">
+      </div>
+      <div class="field">
+        <label for="ContactEmail">{{ 'contact.email' | t }}</label>
+        <input id="ContactEmail" type="email" name="contact[email]" autocomplete="email" value="{{ form.email }}" required>
+      </div>
+      <div class="field">
+        <label for="ContactBody">{{ 'contact.message' | t }}</label>
+        <textarea id="ContactBody" name="contact[body]">{{ form.body }}</textarea>
+      </div>
+      <button type="submit" class="btn btn--primary btn--block">{{ 'contact.send' | t }}</button>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "class": "section-main-contact",
+  "settings": []
+}
+{% endschema %}

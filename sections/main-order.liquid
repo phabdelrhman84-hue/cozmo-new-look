@@ -1,0 +1,54 @@
+<div class="page-width" style="padding-block:24px 40px">
+  <a href="{{ routes.account_url }}" style="font-size:14px;text-decoration:none">{% render 'icon', name: 'back', size: 16 %} {{ 'customer.back_to_account' | t }}</a>
+  <h1 class="page-title">{{ 'customer.order' | t }} {{ order.name }}</h1>
+  <p style="margin-bottom:14px;color:var(--cz-text-muted)">{{ order.created_at | date: format: 'date_at_time' }}</p>
+  {%- if order.cancelled -%}
+    <p class="form-message form-message--error">{{ order.cancel_reason_label }}</p>
+  {%- endif -%}
+
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{{ 'customer.product' | t }}</th>
+          <th scope="col">{{ 'customer.quantity' | t }}</th>
+          <th scope="col">{{ 'customer.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td>{{ line_item.title | link_to: line_item.product.url }}</td>
+            <td>{{ line_item.quantity }}</td>
+            <td>{{ line_item.final_line_price | money_without_trailing_zeros }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+      <tfoot>
+        <tr><td colspan="2">{{ 'cart.subtotal' | t }}</td><td>{{ order.line_items_subtotal_price | money_without_trailing_zeros }}</td></tr>
+        {%- for shipping_method in order.shipping_methods -%}
+          <tr><td colspan="2">{{ 'cart.shipping' | t }} ({{ shipping_method.title }})</td><td>{{ shipping_method.price | money_without_trailing_zeros }}</td></tr>
+        {%- endfor -%}
+        <tr><td colspan="2"><strong>{{ 'cart.total' | t }}</strong></td><td><strong>{{ order.total_net_amount | money_without_trailing_zeros }}</strong></td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div style="display:grid;gap:12px;margin-top:18px">
+    {%- if order.shipping_address -%}
+      <div class="form-card"><strong>{{ 'customer.addresses' | t }}</strong><div style="margin-top:6px">{{ order.shipping_address | format_address }}</div></div>
+    {%- endif -%}
+    <div class="form-card">
+      <div>{{ 'customer.payment_status' | t }}: {{ order.financial_status_label }}</div>
+      <div>{{ 'customer.fulfillment_status' | t }}: {{ order.fulfillment_status_label }}</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Order",
+  "class": "section-main-order",
+  "settings": []
+}
+{% endschema %}

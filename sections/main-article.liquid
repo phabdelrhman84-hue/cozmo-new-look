@@ -1,0 +1,23 @@
+<article class="page-width article">
+  <a href="{{ blog.url }}" style="font-size:14px;text-decoration:none">{% render 'icon', name: 'back', size: 16 %} {{ 'blogs.back' | t }}</a>
+  <h1>{{ article.title | escape }}</h1>
+  <span class="article-card__meta">{{ article.published_at | date: format: 'date' }}{% if section.settings.show_author %} · {{ 'blogs.by' | t: author: article.author }}{% endif %}</span>
+  {%- if article.image -%}
+    <div class="article__hero">{{ article.image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '400, 800, 1200, 1400', sizes: '(min-width: 800px) 760px, 100vw', alt: article.title }}</div>
+  {%- endif -%}
+  <div class="rte">{{ article.content }}</div>
+</article>
+
+<script type="application/ld+json">
+  {{ article | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Article",
+  "class": "section-main-article",
+  "settings": [
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false }
+  ]
+}
+{% endschema %}

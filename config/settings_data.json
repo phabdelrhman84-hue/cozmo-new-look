@@ -1,0 +1,27 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "shipping_fee": 75,
+      "free_shipping_threshold": 1500,
+      "cod_note": "الدفع عند الاستلام",
+      "two_units_discount": 10,
+      "whatsapp_message": "أهلًا، محتاجة استشارة في روتيني",
+      "show_whatsapp_float": false,
+      "cart_type": "drawer",
+      "color_primary": "#C9557F",
+      "color_accent": "#E27AA0",
+      "color_olive": "#6E7551",
+      "color_background": "#F8F1EA",
+      "color_blush": "#F6E4E6",
+      "color_text": "#2E2B26",
+      "color_sale": "#B3261E",
+      "text_direction": "rtl",
+      "page_width": 1280,
+      "logo_width": 118,
+      "card_show_vendor": true,
+      "card_show_rating": true,
+      "card_quick_add": true
+    }
+  }
+}

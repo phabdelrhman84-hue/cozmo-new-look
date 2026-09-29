@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "buy_label": "اطلبي دلوقتي · الدفع عند الاستلام",
+        "sticky_label": "اطلبي دلوقتي",
+        "show_sticky": true,
+        "show_bundle_offer": true,
+        "show_two_units": true,
+        "default_offer": "bundle",
+        "flag_label": "الأوفر",
+        "show_ship_bar": true,
+        "show_trust": true,
+        "description_open": false,
+        "complementary_limit": 2,
+        "shipping_text": "<p>الشحن لكل المحافظات، والدفع عند الاستلام. الاسترجاع خلال 14 يوم.</p>",
+        "authenticity_text": "<p>تقدري تتأكدي من الباتش كود المطبوع على العبوة، ولو عندك أي سؤال ابعتيلنا صورة على واتساب وهنساعدك.</p>"
+      }
+    },
+    "reviews_app": {
+      "type": "apps",
+      "settings": {}
+    },
+    "related": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "ممكن يعجبك كمان",
+        "limit": 4,
+        "show_view_all": false
+      }
+    }
+  },
+  "order": ["main", "reviews_app", "related"]
+}

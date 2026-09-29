@@ -1,0 +1,24 @@
+{%- comment -%}
+  Price with compare-at.
+  Params: product (required), variant (optional), size ('lg' optional), show_from (bool)
+{%- endcomment -%}
+{%- liquid
+  assign target = variant | default: product.selected_or_first_available_variant
+  assign price = target.price
+  assign compare = target.compare_at_price
+  if variant == blank and show_from and product.price_varies
+    assign price = product.price_min
+    assign compare = nil
+  endif
+-%}
+<div class="price{% if size == 'lg' %} price--lg{% endif %}">
+  {%- if variant == blank and show_from and product.price_varies -%}
+    <small>{{ 'products.from' | t }}</small>
+  {%- endif -%}
+  <strong class="price__current" data-cz-price>{{ price | money_without_trailing_zeros }}</strong>
+  {%- if compare > price -%}
+    <s data-cz-compare>{{ compare | money_without_trailing_zeros }}</s>
+  {%- elsif size == 'lg' -%}
+    <s data-cz-compare hidden></s>
+  {%- endif -%}
+</div>

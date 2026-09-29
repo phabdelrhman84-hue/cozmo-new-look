@@ -1,0 +1,51 @@
+<div class="page-width section--spaced">
+  {%- if section.settings.heading != blank -%}
+    <div class="section-head"><h2>{{ section.settings.heading | escape }}</h2></div>
+  {%- endif -%}
+  <ul class="collection-list" role="list">
+    {%- for block in section.blocks -%}
+      {%- assign c = block.settings.collection -%}
+      <li {{ block.shopify_attributes }}>
+        <a class="collection-tile" href="{% if c != blank %}{{ c.url }}{% else %}{{ routes.collections_url }}{% endif %}">
+          <div class="collection-tile__img">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: c.title }}
+            {%- elsif c.featured_image -%}
+              {{ c.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: c.title }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag }}
+            {%- endif -%}
+          </div>
+          <span>{% if c != blank %}{{ c.title | escape }}{% else %}—{% endif %}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "class": "section-collection-list",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "تسوقي حسب القسم" }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Custom image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list",
+      "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }]
+    }
+  ]
+}
+{% endschema %}

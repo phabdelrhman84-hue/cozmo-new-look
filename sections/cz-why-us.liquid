@@ -1,0 +1,62 @@
+<div class="page-width section--spaced">
+  {%- if section.settings.heading != blank -%}
+    <div class="section-head"><h2>{{ section.settings.heading | escape }}</h2></div>
+  {%- endif -%}
+  <div class="why-grid">
+    {%- for block in section.blocks -%}
+      <div class="why-item" {{ block.shopify_attributes }}>
+        <span class="why-item__icon">{% render 'icon', name: block.settings.icon, size: 26 %}</span>
+        <strong>{{ block.settings.title | escape }}</strong>
+        {%- if block.settings.text != blank -%}<p>{{ block.settings.text | escape }}</p>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why us",
+  "class": "section-why",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "ليه Cozmo Station؟" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield / original" },
+            { "value": "pharmacist", "label": "Pharmacist" },
+            { "value": "cod", "label": "Cash on delivery" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "truck", "label": "Shipping" },
+            { "value": "chat", "label": "Chat" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "sparkle", "label": "Sparkle" }
+          ],
+          "default": "shield"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "أصلي بإثبات" },
+        { "type": "text", "id": "text", "label": "Text", "default": "فواتير الاستيراد وباتش كود على كل منتج" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why us",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "shield", "title": "أصلي بإثبات", "text": "فواتير الاستيراد وباتش كود على كل منتج" } },
+        { "type": "item", "settings": { "icon": "pharmacist", "title": "صيدلي بيرد عليكي", "text": "استشارة مجانية قبل ما تشتري" } },
+        { "type": "item", "settings": { "icon": "cod", "title": "الدفع عند الاستلام", "text": "افتحي الشحنة واتأكدي الأول" } },
+        { "type": "item", "settings": { "icon": "returns", "title": "استرجاع 14 يوم", "text": "لو المنتج مش مناسب، بنرجّعه" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+<div class="page-width" style="max-width:820px;padding-bottom:32px">
+  <h1 class="page-title">{{ page.title | escape }}</h1>
+  <div class="rte">{{ page.content }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "Page",
+  "class": "section-main-page",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+{%- comment -%}
+  Product card used on home, collection, search and recommendations.
+  Params:
+    product (required)
+    variant: 'routine' for the wider routine card (optional)
+    lazy: false to eager-load (optional, default true)
+{%- endcomment -%}
+{%- liquid
+  assign card_title = product.metafields.custom.short_title.value | default: product.title
+  assign for_who = product.metafields.custom.for_who.value
+  assign first_variant = product.selected_or_first_available_variant
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+  assign has_multi = false
+  if product.has_only_default_variant == false and product.variants.size > 1
+    assign has_multi = true
+  endif
+  assign contain = false
+  if product.featured_media.preview_image.aspect_ratio < 0.8
+    assign contain = true
+  endif
+-%}
+<div class="card{% if variant == 'routine' %} routine-card{% endif %}">
+  <div class="card__media{% if contain %} card__media--contain{% endif %}">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 600
+        | image_tag:
+          loading: loading,
+          widths: '240, 360, 480, 600',
+          sizes: '(min-width: 990px) 25vw, 50vw',
+          alt: product.featured_media.alt
+          | default: card_title
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+    <div class="card__badges">
+      {%- for tag in product.tags -%}
+        {%- if tag contains 'badge:' -%}
+          <span class="badge">{{ tag | remove_first: 'badge:' | strip }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if product.compare_at_price > product.price and product.available -%}
+        {%- assign off = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+        {%- if off > 0 -%}<span class="badge badge--sale">-{{ off }}%</span>{%- endif -%}
+      {%- endif -%}
+      {%- unless product.available -%}
+        <span class="badge badge--light">{{ 'products.sold_out' | t }}</span>
+      {%- endunless -%}
+    </div>
+  </div>
+
+  <div class="card__body">
+    <h3 class="card__title">
+      <a href="{{ product.url }}">{{ card_title | escape }}</a>
+    </h3>
+    {%- capture meta -%}
+      {%- if settings.card_show_vendor and product.vendor != blank -%}{{ product.vendor }}{%- endif -%}
+      {%- if for_who != blank -%}{% if settings.card_show_vendor and product.vendor != blank %} · {% endif %}{{ for_who }}{%- endif -%}
+    {%- endcapture -%}
+    {%- if meta != blank -%}
+      <div class="card__meta">{{ meta }}</div>
+    {%- endif -%}
+    {%- if settings.card_show_rating and rating != blank and rating_count > 0 -%}
+      <div class="stars" aria-label="{{ 'accessibility.rating' | t: rating: rating.rating }}">
+        {%- assign r = rating.rating | round -%}
+        {%- for i in (1..5) -%}{% if i <= r %}★{% else %}☆{% endif %}{%- endfor -%}
+        <span class="stars__count">({{ rating_count }})</span>
+      </div>
+    {%- endif -%}
+    <div class="card__price">
+      {%- if product.price_varies -%}<small>{{ 'products.from' | t }}</small>{%- endif -%}
+      <strong>{{ product.price | money_without_trailing_zeros }}</strong>
+      {%- if product.compare_at_price > product.price -%}
+        <s>{{ product.compare_at_price | money_without_trailing_zeros }}</s>
+      {%- endif -%}
+      {%- if variant == 'routine' and product.compare_at_price > product.price -%}
+        {%- assign saving = product.compare_at_price | minus: product.price | money_without_trailing_zeros -%}
+        <span class="save-tag">{{ 'products.save' | t: amount: saving }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if settings.card_quick_add -%}
+      <div class="card__actions">
+        {%- if product.available == false -%}
+          <span class="btn btn--secondary btn--sm" aria-disabled="true">{{ 'products.sold_out' | t }}</span>
+        {%- elsif has_multi -%}
+          <a class="btn btn--secondary btn--sm" href="{{ product.url }}">{{ 'products.choose_size' | t }}</a>
+        {%- else -%}
+          {%- form 'product', product, data-cz-quick-add: '' -%}
+            <input type="hidden" name="id" value="{{ first_variant.id }}">
+            <button type="submit" class="btn btn--primary btn--sm">{{ 'products.add_to_cart' | t }}</button>
+          {%- endform -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

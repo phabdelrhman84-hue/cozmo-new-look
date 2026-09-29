@@ -1,0 +1,45 @@
+{%- comment -%} Cart line items with quantity steppers. Works in drawer and cart page. {%- endcomment -%}
+<ul class="line-items" role="list">
+  {%- for item in cart.items -%}
+    {%- assign item_title = item.product.metafields.custom.short_title.value | default: item.product.title -%}
+    <li class="line-item" data-cz-line="{{ item.key }}">
+      <a href="{{ item.url }}" class="line-item__img" tabindex="-1" aria-hidden="true">
+        {%- if item.image -%}
+          {{ item.image | image_url: width: 180 | image_tag: loading: 'lazy', alt: item_title }}
+        {%- endif -%}
+      </a>
+      <div class="line-item__body">
+        <a class="line-item__title" href="{{ item.url }}">{{ item_title | escape }}</a>
+        {%- capture meta -%}
+          {%- if item.product.vendor != blank -%}{{ item.product.vendor }}{%- endif -%}
+          {%- unless item.product.has_only_default_variant -%} · {{ item.variant.title }}{%- endunless -%}
+        {%- endcapture -%}
+        {%- if meta != blank -%}<span class="line-item__meta">{{ meta }}</span>{%- endif -%}
+        {%- for property in item.properties -%}
+          {%- assign first_char = property.first | slice: 0 -%}
+          {%- if property.last != blank and first_char != '_' -%}
+            <span class="line-item__meta">{{ property.first }}: {{ property.last }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for discount in item.line_level_discount_allocations -%}
+          <span class="line-item__discount">{{ discount.discount_application.title }} (-{{ discount.amount | money_without_trailing_zeros }})</span>
+        {%- endfor -%}
+        <div class="line-item__row">
+          <div class="qty">
+            <button type="button" data-cz-qty-step="1" aria-label="{{ 'accessibility.increase' | t }}">{% render 'icon', name: 'plus', size: 16 %}</button>
+            <label class="visually-hidden" for="Qty-{{ item.key | handle }}">{{ 'products.quantity' | t }}</label>
+            <input id="Qty-{{ item.key | handle }}" type="number" min="0" inputmode="numeric" value="{{ item.quantity }}">
+            <button type="button" data-cz-qty-step="-1" aria-label="{{ 'accessibility.decrease' | t }}">{% render 'icon', name: 'minus', size: 16 %}</button>
+          </div>
+          <div class="line-item__price">
+            <strong>{{ item.final_line_price | money_without_trailing_zeros }}</strong>
+            {%- if item.original_line_price > item.final_line_price -%}
+              <s>{{ item.original_line_price | money_without_trailing_zeros }}</s>
+            {%- endif -%}
+          </div>
+        </div>
+        <a class="line-item__remove" href="{{ item.url_to_remove }}" data-cz-remove>{{ 'accessibility.remove' | t }}</a>
+      </div>
+    </li>
+  {%- endfor -%}
+</ul>

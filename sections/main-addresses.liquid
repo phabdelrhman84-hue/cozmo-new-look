@@ -1,0 +1,45 @@
+<div class="page-width narrow" style="padding-block:24px 40px">
+  <a href="{{ routes.account_url }}" style="font-size:14px;text-decoration:none">{% render 'icon', name: 'back', size: 16 %} {{ 'customer.back_to_account' | t }}</a>
+  <h1 class="page-title">{{ 'customer.addresses' | t }}</h1>
+
+  {%- paginate customer.addresses by 10 -%}
+    {%- for address in customer.addresses -%}
+      <div class="form-card" style="margin-bottom:12px">
+        {%- if address == customer.default_address -%}<span class="badge" style="margin-bottom:6px">{{ 'customer.default_address' | t }}</span>{%- endif -%}
+        <div>{{ address | format_address }}</div>
+        <details style="margin-top:10px">
+          <summary class="btn btn--secondary btn--sm">{{ 'customer.edit' | t }}</summary>
+          <div style="margin-top:12px">
+            {%- form 'customer_address', address -%}
+              {% render 'address-fields', form: form, prefix: address.id %}
+              <button type="submit" class="btn btn--primary btn--block">{{ 'customer.save' | t }}</button>
+            {%- endform -%}
+          </div>
+        </details>
+        <form method="post" action="{{ address.url }}" style="margin-top:8px">
+          <input type="hidden" name="_method" value="delete">
+          <button type="submit" class="line-item__remove" onclick="return confirm('{{ 'customer.delete' | t }}?');">{{ 'customer.delete' | t }}</button>
+        </form>
+      </div>
+    {%- endfor -%}
+    {%- if paginate.pages > 1 -%}{% render 'pagination', paginate: paginate %}{%- endif -%}
+  {%- endpaginate -%}
+
+  <details class="form-card" {% if customer.addresses_count == 0 %}open{% endif %}>
+    <summary style="font-weight:700;cursor:pointer">{{ 'customer.add_address' | t }}</summary>
+    <div style="margin-top:12px">
+      {%- form 'customer_address', customer.new_address -%}
+        {% render 'address-fields', form: form, prefix: 'new' %}
+        <button type="submit" class="btn btn--primary btn--block">{{ 'customer.add_address' | t }}</button>
+      {%- endform -%}
+    </div>
+  </details>
+</div>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "class": "section-main-addresses",
+  "settings": []
+}
+{% endschema %}

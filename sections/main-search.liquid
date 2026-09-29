@@ -1,0 +1,45 @@
+<div class="page-width">
+  <h1 class="page-title">{{ 'search.title' | t }}</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-pill" style="margin-bottom:16px">
+    <label for="SearchPage" class="visually-hidden">{{ 'general.search' | t }}</label>
+    <button type="submit" aria-label="{{ 'search.submit' | t }}">{% render 'icon', name: 'search', size: 20 %}</button>
+    <input id="SearchPage" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search_placeholder' | t }}">
+    <input type="hidden" name="options[prefix]" value="last">
+  </form>
+
+  {%- if search.performed -%}
+    {%- paginate search.results by 24 -%}
+      {%- if search.results_count == 0 -%}
+        <div class="center-block"><p>{{ 'search.no_results' | t: terms: search.terms }}</p></div>
+      {%- else -%}
+        <p class="toolbar__count" style="margin-bottom:12px">{{ 'search.results_for' | t: terms: search.terms }} · {{ 'collections.results' | t: count: search.results_count }}</p>
+        <ul class="product-grid" role="list">
+          {%- for item in search.results -%}
+            <li>
+              {%- case item.object_type -%}
+                {%- when 'product' -%}
+                  {% render 'product-card', product: item %}
+                {%- when 'article' -%}
+                  <a class="collection-tile" href="{{ item.url }}">
+                    <div class="collection-tile__img">{% if item.image %}{{ item.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: item.title }}{% endif %}</div>
+                    <span>{{ item.title | escape }}</span>
+                  </a>
+                {%- when 'page' -%}
+                  <a class="collection-tile" href="{{ item.url }}"><span>{{ item.title | escape }}</span></a>
+              {%- endcase -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+        {%- if paginate.pages > 1 -%}{% render 'pagination', paginate: paginate %}{%- endif -%}
+      {%- endif -%}
+    {%- endpaginate -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Search results",
+  "class": "section-main-search",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,75 @@
+{%- comment -%}
+  One smart upsell for the cart.
+  Source: custom.complementary_products metafield of the cart items,
+  then settings.cart_upsell_collection as a fallback.
+  Prefers a product whose price closes the free-shipping gap.
+{%- endcomment -%}
+{%- liquid
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  assign in_cart = ','
+  for item in cart.items
+    assign in_cart = in_cart | append: item.product_id | append: ','
+  endfor
+
+  assign pick = nil
+  assign fallback = nil
+  for item in cart.items
+    for p in item.product.metafields.custom.complementary_products.value
+      assign needle = ',' | append: p.id | append: ','
+      if in_cart contains needle
+        continue
+      endif
+      if p.available
+        if fallback == nil
+          assign fallback = p
+        endif
+        if pick == nil and remaining > 0 and p.price >= remaining
+          assign pick = p
+        endif
+      endif
+    endfor
+  endfor
+
+  if fallback == nil and settings.cart_upsell_collection != blank
+    for p in settings.cart_upsell_collection.products limit: 12
+      assign needle = ',' | append: p.id | append: ','
+      if in_cart contains needle
+        continue
+      endif
+      if p.available
+        if fallback == nil
+          assign fallback = p
+        endif
+        if pick == nil and remaining > 0 and p.price >= remaining
+          assign pick = p
+        endif
+      endif
+    endfor
+  endif
+
+  if pick == nil
+    assign pick = fallback
+  endif
+-%}
+{%- if pick != nil and cart.item_count > 0 -%}
+  {%- assign up_title = pick.metafields.custom.short_title.value | default: pick.title -%}
+  <div class="upsell">
+    <a class="upsell__img" href="{{ pick.url }}" tabindex="-1" aria-hidden="true">
+      {%- if pick.featured_media -%}
+        {{ pick.featured_media | image_url: width: 140 | image_tag: loading: 'lazy', alt: up_title }}
+      {%- endif -%}
+    </a>
+    <div class="upsell__body">
+      <span class="upsell__eyebrow">
+        {%- if threshold > 0 and remaining > 0 and pick.price >= remaining -%}
+          {{ 'cart.upsell_title' | t }}
+        {%- else -%}
+          {{ 'cart.upsell_title_generic' | t }}
+        {%- endif -%}
+      </span>
+      <a href="{{ pick.url }}">{{ up_title | escape }} · {{ pick.price | money_without_trailing_zeros }}</a>
+    </div>
+    <button type="button" class="btn btn--primary btn--sm" data-cz-add-variant="{{ pick.selected_or_first_available_variant.id }}">{{ 'cart.add' | t }}</button>
+  </div>
+{%- endif -%}

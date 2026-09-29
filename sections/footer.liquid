@@ -1,0 +1,65 @@
+<footer class="site-footer">
+  <div class="page-width site-footer__grid">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <a href="{{ routes.root_url }}" class="site-footer__logo">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', alt: shop.name }}
+        {%- else -%}
+          <strong>{{ shop.name }}</strong>
+        {%- endif -%}
+      </a>
+      {%- if section.settings.text != blank -%}
+        <div class="site-footer__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <nav class="site-footer__menus" aria-label="{{ shop.name }}">
+      {%- for link in section.settings.menu_1.links -%}
+        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+      {%- endfor -%}
+      {%- for link in section.settings.menu_2.links -%}
+        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="site-footer__social">
+        {%- if settings.social_instagram != blank -%}
+          <a class="icon-btn" href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="{{ 'general.social_instagram' | t }}">{% render 'icon', name: 'instagram' %}</a>
+        {%- endif -%}
+        {%- if settings.social_facebook != blank -%}
+          <a class="icon-btn" href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="{{ 'general.social_facebook' | t }}">{% render 'icon', name: 'facebook' %}</a>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <a class="icon-btn" href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="{{ 'general.social_tiktok' | t }}">{% render 'icon', name: 'tiktok' %}</a>
+        {%- endif -%}
+        {%- if settings.whatsapp_number != blank -%}
+          <a class="icon-btn" href="https://wa.me/{{ settings.whatsapp_number | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener" aria-label="{{ 'general.whatsapp' | t }}">{% render 'icon', name: 'whatsapp', size: 22 %}</a>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.show_payment_note -%}
+        <div class="site-footer__text">{{ settings.cod_note }} · {{ 'products.returns' | t }}</div>
+      {%- endif -%}
+      <div class="site-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>منتجات عناية أصلية مختارة بعين صيدلي، ومعاكي خطوة بخطوة في روتينك.</p>"
+    },
+    { "type": "link_list", "id": "menu_1", "label": "Menu 1", "default": "footer" },
+    { "type": "link_list", "id": "menu_2", "label": "Menu 2" },
+    { "type": "checkbox", "id": "show_payment_note", "label": "Show COD & returns note", "default": true }
+  ],
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

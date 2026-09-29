@@ -1,0 +1,93 @@
+<div class="page-width section--spaced">
+  {%- if section.settings.heading != blank -%}
+    <div class="section-head">
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  <div class="concern-grid">
+    {%- for block in section.blocks -%}
+      <a
+        class="concern concern--{{ block.settings.tone }}"
+        href="{{ block.settings.link | default: routes.all_products_collection_url }}"
+        {{ block.shopify_attributes }}
+      >
+        <span class="concern__icon">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+          {%- else -%}
+            {% render 'icon', name: block.settings.icon, size: 22 %}
+          {%- endif -%}
+        </span>
+        <span class="concern__label">{{ block.settings.label | escape }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by concern",
+  "class": "section-concerns",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "تسوقي حسب مشكلتك" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "الكل" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "Concern",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "تالف من الصبغة" },
+        { "type": "url", "id": "link", "label": "Link (collection)" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "hair-damage", "label": "Damaged hair" },
+            { "value": "hair-fall", "label": "Hair fall" },
+            { "value": "frizz", "label": "Frizz" },
+            { "value": "spots", "label": "Dark spots" },
+            { "value": "drop", "label": "Oily / hydration" },
+            { "value": "leaf", "label": "Sensitive" },
+            { "value": "sun", "label": "Sun care" },
+            { "value": "sparkle", "label": "Glow" },
+            { "value": "body", "label": "Body" },
+            { "value": "gift", "label": "Gifts" }
+          ],
+          "default": "hair-damage"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Color",
+          "options": [
+            { "value": "hair", "label": "Pink (hair)" },
+            { "value": "skin", "label": "Olive (skin)" }
+          ],
+          "default": "hair"
+        },
+        { "type": "image_picker", "id": "image", "label": "Custom icon image (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by concern",
+      "blocks": [
+        { "type": "concern", "settings": { "label": "تالف من الصبغة", "icon": "hair-damage", "tone": "hair" } },
+        { "type": "concern", "settings": { "label": "تساقط وتطويل", "icon": "hair-fall", "tone": "hair" } },
+        { "type": "concern", "settings": { "label": "هيشان وتقصف", "icon": "frizz", "tone": "hair" } },
+        { "type": "concern", "settings": { "label": "بقع وتصبغات", "icon": "spots", "tone": "skin" } },
+        { "type": "concern", "settings": { "label": "دهنية وحبوب", "icon": "drop", "tone": "skin" } },
+        { "type": "concern", "settings": { "label": "بشرة حساسة", "icon": "leaf", "tone": "skin" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

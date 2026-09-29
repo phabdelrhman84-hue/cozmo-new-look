@@ -1,0 +1,15 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "text": "<p>منتجات عناية أصلية مختارة بعين صيدلي، ومعاكي خطوة بخطوة في روتينك.</p>",
+        "menu_1": "footer",
+        "show_payment_note": true
+      }
+    }
+  },
+  "order": ["footer"]
+}

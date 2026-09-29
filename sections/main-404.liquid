@@ -1,0 +1,18 @@
+<div class="page-width center-block">
+  <h1>{{ 'templates.404_title' | t }}</h1>
+  <p>{{ 'templates.404_text' | t }}</p>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-pill" style="width:100%">
+    <label for="Search404" class="visually-hidden">{{ 'general.search' | t }}</label>
+    <button type="submit" aria-label="{{ 'search.submit' | t }}">{% render 'icon', name: 'search', size: 20 %}</button>
+    <input id="Search404" type="search" name="q" placeholder="{{ 'general.search_placeholder' | t }}">
+  </form>
+  <a class="btn btn--primary" href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "class": "section-main-404",
+  "settings": []
+}
+{% endschema %}

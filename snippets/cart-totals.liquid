@@ -1,0 +1,36 @@
+{%- comment -%}
+  Totals block. Shipping here is an estimate shown to the customer;
+  the real rate is calculated at checkout from Settings → Shipping.
+{%- endcomment -%}
+{%- liquid
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign fee = settings.shipping_fee | times: 100
+  assign free = false
+  if threshold > 0 and cart.total_price >= threshold
+    assign free = true
+  endif
+  assign grand = cart.total_price
+  unless free
+    assign grand = grand | plus: fee
+  endunless
+-%}
+<div class="totals">
+  <div class="totals__row">
+    <span>{{ 'cart.subtotal' | t }}</span>
+    <span>{{ cart.items_subtotal_price | money_without_trailing_zeros }}</span>
+  </div>
+  {%- for discount in cart.cart_level_discount_applications -%}
+    <div class="totals__row">
+      <span>{{ discount.title }}</span>
+      <span>-{{ discount.total_allocated_amount | money_without_trailing_zeros }}</span>
+    </div>
+  {%- endfor -%}
+  <div class="totals__row">
+    <span>{{ 'cart.shipping' | t }}</span>
+    <span>{% if free %}{{ 'cart.shipping_free' | t }}{% else %}{{ fee | money_without_trailing_zeros }}{% endif %}</span>
+  </div>
+  <div class="totals__row totals__row--total">
+    <span>{{ 'cart.total' | t }}</span>
+    <span>{{ grand | money_without_trailing_zeros }}</span>
+  </div>
+</div>

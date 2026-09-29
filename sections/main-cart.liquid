@@ -1,0 +1,47 @@
+<div class="page-width" style="padding-bottom:24px">
+  <h1 class="page-title">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      {% render 'icon', name: 'bag-empty', size: 72 %}
+      <strong>{{ 'cart.empty' | t }}</strong>
+      <a class="btn btn--primary" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a>
+    </div>
+  {%- else -%}
+    <div class="cart-page" data-cz-cart-page>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        {% render 'free-shipping-bar' %}
+        {% render 'cart-line-items' %}
+        {% render 'cart-upsell' %}
+      </div>
+      <form action="{{ routes.cart_url }}" method="post" class="cart-page__summary">
+        {% render 'cart-totals' %}
+        {%- if section.settings.show_note -%}
+          <div class="cart-note">
+            <label for="CartNote" style="font-size:14px;font-weight:600">{{ 'cart.note' | t }}</label>
+            <textarea id="CartNote" name="note">{{ cart.note }}</textarea>
+          </div>
+        {%- endif -%}
+        <button type="submit" name="checkout" class="btn btn--primary btn--lg btn--block">{{ 'cart.checkout' | t }}</button>
+        <p class="totals__note">{{ 'cart.cod_note' | t }}</p>
+      </form>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  // On the cart page, re-render the page after quantity changes.
+  document.addEventListener('cz:cart-updated', function () {
+    if (document.querySelector('[data-cz-cart-page]')) window.location.reload();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "class": "section-main-cart",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "Show order note", "default": false }
+  ]
+}
+{% endschema %}
