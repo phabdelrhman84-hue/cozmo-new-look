@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header group",
@@ -5,10 +14,25 @@
     "announcement": {
       "type": "announcement-bar",
       "blocks": {
-        "msg1": { "type": "announcement", "settings": { "text": "شحن 75 ج.م لكل المحافظات", "link": "" } },
-        "msg2": { "type": "announcement", "settings": { "text": "الدفع عند الاستلام", "link": "" } }
+        "msg1": {
+          "type": "announcement",
+          "settings": {
+            "text": "شحن مجاني من أول قطعة لكل المحافظات · الدفع عند الاستلام",
+            "link": ""
+          }
+        },
+        "msg2": {
+          "type": "announcement",
+          "settings": {
+            "text": "تسوق الان",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["msg1", "msg2"],
+      "block_order": [
+        "msg1",
+        "msg2"
+      ],
       "settings": {}
     },
     "header": {
@@ -21,5 +45,8 @@
       }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }
