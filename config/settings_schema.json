@@ -97,43 +97,43 @@
         "type": "color",
         "id": "color_primary",
         "label": "Primary (buy buttons only)",
-        "default": "#C9557F"
+        "default": "#E8A0BF"
       },
       {
         "type": "color",
         "id": "color_accent",
         "label": "Brand pink (accents)",
-        "default": "#E27AA0"
+        "default": "#D4809F"
       },
       {
         "type": "color",
         "id": "color_olive",
         "label": "Olive (trust, badges, announcement)",
-        "default": "#6E7551"
+        "default": "#5C6B4D"
       },
       {
         "type": "color",
         "id": "color_background",
         "label": "Page background",
-        "default": "#F8F1EA"
+        "default": "#FAF8F5"
       },
       {
         "type": "color",
         "id": "color_blush",
         "label": "Blush surface (product images)",
-        "default": "#F6E4E6"
+        "default": "#F2C4D6"
       },
       {
         "type": "color",
         "id": "color_text",
         "label": "Text",
-        "default": "#2E2B26"
+        "default": "#2D2D2D"
       },
       {
         "type": "color",
         "id": "color_sale",
         "label": "Sale badge",
-        "default": "#B3261E"
+        "default": "#C0413F"
       }
     ]
   },

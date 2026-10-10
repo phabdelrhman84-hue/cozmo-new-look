@@ -1,4 +1,11 @@
 <style>
+  @font-face {
+    font-family: 'Cairo';
+    src: url('{{ "cairo-var.woff2" | asset_url }}') format('woff2');
+    font-weight: 200 1000;
+    font-style: normal;
+    font-display: swap;
+  }
   :root {
     --cz-primary: {{ settings.color_primary }};
     --cz-primary-hover: {{ settings.color_primary | color_darken: 8 }};
@@ -11,18 +18,34 @@
     --cz-blush: {{ settings.color_blush }};
     --cz-blush-soft: {{ settings.color_blush | color_mix: '#ffffff', 45 }};
     --cz-text: {{ settings.color_text }};
-    --cz-text-muted: {{ settings.color_text | color_mix: settings.color_background, 75 }};
+    --cz-text-muted: #6B6B6B;
     --cz-text-subtle: {{ settings.color_text | color_mix: settings.color_background, 64 }};
-    --cz-border: {{ settings.color_text | color_mix: settings.color_background, 9 }};
+    --cz-border: #E8DFD5;
     --cz-border-strong: {{ settings.color_text | color_mix: settings.color_background, 16 }};
     --cz-strike: #8a8378;
     --cz-star: #b7832f;
     --cz-sale: {{ settings.color_sale }};
-    --cz-radius-sm: 12px;
-    --cz-radius-md: 16px;
-    --cz-radius-lg: 22px;
+    --cz-on-primary: #2D2D2D;
+    --cz-beige: #F5F0EB;
+    --cz-beige-dark: #E8DFD5;
+    --cz-cream: #FFFDF9;
+    --cz-sage: #7D8F69;
+    --cz-sage-light: #A3B18A;
+    --cz-sage-dark: #5C6B4D;
+    --cz-pink-text: #A35D78;
+    --cz-shadow-soft: 0 2px 15px rgba(0,0,0,0.04);
+    --cz-shadow-medium: 0 4px 25px rgba(0,0,0,0.08);
+    --cz-shadow-strong: 0 8px 40px rgba(0,0,0,0.12);
+    --cz-radius-sm: 6px;
+    --cz-radius-md: 10px;
+    --cz-radius-lg: 16px;
+    --cz-radius-xl: 24px;
+    --cz-grad-brand: linear-gradient(to left, #7D8F69, #E8A0BF);
+    --cz-grad-soft: linear-gradient(135deg, rgba(242,196,214,.3), rgba(163,177,138,.3));
+    --cz-grad-page: linear-gradient(135deg, #F5F0EB, rgba(242,196,214,.2));
+    --cz-grad-text: linear-gradient(135deg, #A35D78, #5C6B4D);
     --cz-font-display: 'Cairo', system-ui, sans-serif;
-    --cz-font-body: 'Tajwal', system-ui, sans-serif;
+    --cz-font-body: 'Cairo', system-ui, sans-serif;
     --cz-page-width: {{ settings.page_width }}px;
   }
 </style>
