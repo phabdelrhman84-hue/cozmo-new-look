@@ -98,6 +98,7 @@
     },
     "promo": {
       "type": "cz-promo-strip",
+      "disabled": true,
       "settings": {
         "title": "شحن مجاني فوق [threshold]",
         "subtitle": "كمّلي روتينك ووفّري الشحن",
