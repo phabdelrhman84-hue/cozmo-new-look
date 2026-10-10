@@ -24,26 +24,6 @@
         "tick_3": ""
       }
     },
-    "promo": {
-      "type": "cz-promo-strip",
-      "disabled": true,
-      "settings": {
-        "title": "شحن مجاني فوق [threshold]",
-        "subtitle": "كمّلي روتينك ووفّري الشحن",
-        "link": "",
-        "icon": "truck"
-      }
-    },
-    "bestsellers": {
-      "type": "cz-featured-collection",
-      "settings": {
-        "heading": "الأكثر مبيعًا",
-        "subheading": "",
-        "collection": "cleansers",
-        "limit": 4,
-        "show_view_all": true
-      }
-    },
     "concerns": {
       "type": "cz-concerns",
       "blocks": {
@@ -78,7 +58,7 @@
           "type": "concern",
           "settings": {
             "label": "بقع وتصبغات",
-            "link": "shopify://collections/غسول-للبشره-copy",
+            "link": "",
             "icon": "spots",
             "tone": "skin"
           }
@@ -87,7 +67,7 @@
           "type": "concern",
           "settings": {
             "label": "دهنية وحبوب",
-            "link": "shopify://collections/غسول-للبشره",
+            "link": "",
             "icon": "drop",
             "tone": "skin"
           }
@@ -95,8 +75,8 @@
         "c6": {
           "type": "concern",
           "settings": {
-            "label": "ترطيب",
-            "link": "shopify://collections/اشراقه-وتوحيد-لون-copy",
+            "label": "بشرة حساسة",
+            "link": "",
             "icon": "leaf",
             "tone": "skin"
           }
@@ -111,9 +91,28 @@
         "c6"
       ],
       "settings": {
-        "heading": "اختاري اللي بشرتك وشعرك محتاجينه",
+        "heading": "تسوقي حسب مشكلتك",
         "link_label": "الكل",
         "link": ""
+      }
+    },
+    "promo": {
+      "type": "cz-promo-strip",
+      "settings": {
+        "title": "شحن مجاني فوق [threshold]",
+        "subtitle": "كمّلي روتينك ووفّري الشحن",
+        "link": "",
+        "icon": "truck"
+      }
+    },
+    "bestsellers": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "الأكثر مبيعًا",
+        "subheading": "",
+        "collection": "",
+        "limit": 4,
+        "show_view_all": true
       }
     },
     "routines": {
@@ -133,31 +132,31 @@
           "settings": {
             "icon": "shield",
             "title": "أصلي 100%",
-            "text": "باتش كود على كل منتج تقدري تتأكدي منه"
+            "text": "منتجات أصلية مستوردة مباشرة من كوريا"
           }
         },
         "w2": {
           "type": "item",
           "settings": {
-            "icon": "pharmacist",
-            "title": "صيدلي بيرد عليكي",
-            "text": "استشارة مجانية قبل ما تشتري"
+            "icon": "truck",
+            "title": "توصيل سريع",
+            "text": "توصيل لجميع محافظات مصر"
           }
         },
         "w3": {
           "type": "item",
           "settings": {
-            "icon": "cod",
-            "title": "الدفع عند الاستلام",
-            "text": "مش هتدفعي غير لما الطلب يوصلك"
+            "icon": "star",
+            "title": "جودة مضمونة",
+            "text": "نختبر كل منتج قبل إضافته"
           }
         },
         "w4": {
           "type": "item",
           "settings": {
-            "icon": "returns",
-            "title": "استرجاع 14 يوم",
-            "text": "لو المنتج مش مناسب، بنرجّعه"
+            "icon": "heart",
+            "title": "دعم متميز",
+            "text": "فريق متخصص لمساعدتك في الاختيار"
           }
         }
       },
@@ -168,7 +167,7 @@
         "w4"
       ],
       "settings": {
-        "heading": "ليه Cozmo Station؟"
+        "heading": ""
       }
     },
     "pharmacist": {
@@ -189,11 +188,11 @@
   },
   "order": [
     "hero",
+    "why",
+    "concerns",
     "promo",
     "bestsellers",
-    "concerns",
     "routines",
-    "why",
     "pharmacist",
     "reviews"
   ]
