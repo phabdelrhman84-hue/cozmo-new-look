@@ -12,6 +12,7 @@
     "hero": {
       "type": "cz-hero",
       "settings": {
+        "image": "shopify://shop_images/38a10529-bec1-4233-b1ea-6876ceec2e4d_1322e2e2-5f2e-4435-bf4e-227791fc5d3f.jpg",
         "eyebrow": "🧪 تركيز 77% من مستخلص الـ Heartleaf",
         "heading": "سر التريند الكوري",
         "heading_highlight": "للحصول على الـ Glass Skin",
