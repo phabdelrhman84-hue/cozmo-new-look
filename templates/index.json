@@ -58,7 +58,7 @@
           "type": "concern",
           "settings": {
             "label": "بقع وتصبغات",
-            "link": "",
+            "link": "shopify://collections/غسول-للبشره-copy",
             "icon": "spots",
             "tone": "skin"
           }
@@ -67,7 +67,7 @@
           "type": "concern",
           "settings": {
             "label": "دهنية وحبوب",
-            "link": "",
+            "link": "shopify://collections/غسول-للبشره",
             "icon": "drop",
             "tone": "skin"
           }
@@ -75,8 +75,8 @@
         "c6": {
           "type": "concern",
           "settings": {
-            "label": "بشرة حساسة",
-            "link": "",
+            "label": "ترطيب",
+            "link": "shopify://collections/اشراقه-وتوحيد-لون-copy",
             "icon": "leaf",
             "tone": "skin"
           }
