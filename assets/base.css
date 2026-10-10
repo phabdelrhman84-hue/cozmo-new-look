@@ -25,7 +25,7 @@ a { color: var(--cz-primary); }
 a:hover { color: var(--cz-primary-hover); }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-h1, h2, h3, h4 { font-family: var(--cz-font-display); line-height: 1.3; margin: 0; }
+h1, h2, h3, h4 { font-family: var(--cz-font-display); font-weight: 700; line-height: 1.4; margin: 0; }
 p { margin: 0; }
 ul { margin: 0; padding: 0; }
 s { color: var(--cz-strike); }
@@ -88,7 +88,8 @@ s { color: var(--cz-strike); }
   padding: 0 24px;
   border-radius: 999px;
   border: 1.5px solid transparent;
-  font-weight: 700;
+  font-family: var(--cz-font-body);
+  font-weight: 600;
   font-size: 15px;
   text-decoration: none;
   transition: background-color .15s ease, color .15s ease, transform .1s ease;
@@ -102,7 +103,7 @@ s { color: var(--cz-strike); }
 .btn--secondary:hover { background: var(--cz-blush-soft); color: var(--cz-primary-hover); }
 .btn--light { background: #fff; color: var(--cz-olive-dark); }
 .btn--block { width: 100%; }
-.btn--lg { min-height: 56px; font-size: 17px; font-family: var(--cz-font-display); }
+.btn--lg { min-height: 56px; font-size: 17px; font-family: var(--cz-font-body); font-weight: 700; }
 .btn--sm { min-height: 44px; padding: 0 16px; font-size: 14px; }
 .btn.is-loading { position: relative; color: transparent !important; }
 .btn.is-loading::after {
