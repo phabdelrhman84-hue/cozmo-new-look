@@ -24,6 +24,16 @@
         "tick_3": ""
       }
     },
+    "promo": {
+      "type": "cz-promo-strip",
+      "disabled": true,
+      "settings": {
+        "title": "شحن مجاني فوق [threshold]",
+        "subtitle": "كمّلي روتينك ووفّري الشحن",
+        "link": "",
+        "icon": "truck"
+      }
+    },
     "concerns": {
       "type": "cz-concerns",
       "blocks": {
@@ -94,16 +104,6 @@
         "heading": "اختاري اللي بشرتك وشعرك محتاجينه",
         "link_label": "الكل",
         "link": ""
-      }
-    },
-    "promo": {
-      "type": "cz-promo-strip",
-      "disabled": true,
-      "settings": {
-        "title": "شحن مجاني فوق [threshold]",
-        "subtitle": "كمّلي روتينك ووفّري الشحن",
-        "link": "",
-        "icon": "truck"
       }
     },
     "bestsellers": {
@@ -189,9 +189,9 @@
   },
   "order": [
     "hero",
-    "concerns",
     "promo",
     "bestsellers",
+    "concerns",
     "routines",
     "why",
     "pharmacist",
