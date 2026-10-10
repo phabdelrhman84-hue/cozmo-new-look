@@ -34,6 +34,16 @@
         "icon": "truck"
       }
     },
+    "bestsellers": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "الأكثر مبيعًا",
+        "subheading": "",
+        "collection": "cleansers",
+        "limit": 4,
+        "show_view_all": true
+      }
+    },
     "concerns": {
       "type": "cz-concerns",
       "blocks": {
@@ -104,16 +114,6 @@
         "heading": "اختاري اللي بشرتك وشعرك محتاجينه",
         "link_label": "الكل",
         "link": ""
-      }
-    },
-    "bestsellers": {
-      "type": "cz-featured-collection",
-      "settings": {
-        "heading": "الأكثر مبيعًا",
-        "subheading": "",
-        "collection": "",
-        "limit": 4,
-        "show_view_all": true
       }
     },
     "routines": {
