@@ -1,17 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "cz-hero",
       "settings": {
-        "eyebrow": "روتين الترميم الألماني",
-        "heading": "شعرك تالف من الصبغة؟",
-        "heading_highlight": "رجّعيه من جوّه",
-        "text": "منتجات أصلية مختارة بعين صيدلي، لكل مشكلة روتين واضح.",
-        "button_label": "اكتشفي روتينك",
+        "eyebrow": "🧪 تركيز 77% من مستخلص الـ Heartleaf",
+        "heading": "سر التريند الكوري",
+        "heading_highlight": "للحصول على الـ Glass Skin",
+        "text": "تهدئة فورية للبشرة المعرضة للحبوب مع ترطيب عميق. مثبت علمياً والأكثر طلباً لتنظيف المسام.",
+        "button_label": "اكتشفي السر الآن",
         "button_link": "",
-        "tick_1": "أصلي 100%",
-        "tick_2": "استرجاع 14 يوم",
-        "tick_3": "دفع عند الاستلام"
+        "tick_1": "",
+        "tick_2": "",
+        "tick_3": ""
       }
     },
     "concerns": {
