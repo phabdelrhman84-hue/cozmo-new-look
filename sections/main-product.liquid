@@ -54,65 +54,69 @@
   data-cz-product
   data-two-discount="{{ settings.two_units_discount }}"
 >
-  <script type="application/json" data-cz-product-json>{{ product | json }}</script>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">الرئيسية</a>
+    <span class="breadcrumb__sep">/</span>
+    <a href="{{ routes.all_products_collection_url }}">المنتجات</a>
+    <span class="breadcrumb__sep">/</span>
+    <span class="breadcrumb__current" aria-current="page">{{ p_title }}</span>
+  </nav>
 
   <div class="product">
     {%- comment -%} ---------- Gallery ---------- {%- endcomment -%}
     <div class="gallery" data-cz-gallery>
-      <div class="gallery__badges">
-        {%- for tag in product.tags -%}
-          {%- if tag contains 'badge:' -%}
-            <span class="badge">{{ tag | remove_first: 'badge:' | strip }}</span>
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if product.compare_at_price > product.price -%}
-          {%- assign off = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
-          {%- if off > 0 -%}<span class="badge badge--sale">-{{ off }}%</span>{%- endif -%}
-        {%- endif -%}
-      </div>
-      <ul class="gallery__track" data-cz-gallery-track role="list">
-        {%- for media in product.media -%}
-          <li class="gallery__slide" data-media-id="{{ media.id }}">
-            {%- case media.media_type -%}
-              {%- when 'image' -%}
-                {%- liquid
-                  assign img_loading = 'lazy'
-                  if forloop.first
-                    assign img_loading = 'eager'
-                  endif
-                -%}
-                {{
-                  media
-                  | image_url: width: 1400
-                  | image_tag:
-                    loading: img_loading,
-                    widths: '400, 600, 800, 1000, 1400',
-                    sizes: '(min-width: 990px) 55vw, 100vw',
-                    alt: media.alt
-                    | default: p_title
-                }}
-              {%- when 'video' -%}
-                {{ media | video_tag: controls: true, playsinline: true, preload: 'metadata' }}
-              {%- when 'external_video' -%}
-                {{ media | external_video_tag }}
-              {%- else -%}
-                {{ media | media_tag }}
-            {%- endcase -%}
-          </li>
-        {%- else -%}
-          <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag }}</li>
-        {%- endfor -%}
-      </ul>
-      {%- if product.media.size > 1 -%}
-        <div class="gallery__dots">
-          {%- for media in product.media -%}
-            <button type="button" class="gallery__dot{% if forloop.first %} is-active{% endif %}" aria-label="{{ 'accessibility.slide' | t: index: forloop.index }}"></button>
+      <div class="gallery__card">
+        <div class="gallery__badges">
+          {%- for tag in product.tags -%}
+            {%- if tag contains 'badge:' -%}
+              <span class="badge">{{ tag | remove_first: 'badge:' | strip }}</span>
+            {%- endif -%}
           {%- endfor -%}
+          {%- if product.compare_at_price > product.price -%}
+            {%- assign off = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+            {%- if off > 0 -%}<span class="badge badge--sale">-{{ off }}%</span>{%- endif -%}
+          {%- endif -%}
         </div>
-        <div class="gallery__thumbs">
-          {%- for media in product.media limit: 8 -%}
-            <button type="button" data-cz-thumb class="{% if forloop.first %}is-active{% endif %}" aria-label="{{ 'accessibility.slide' | t: index: forloop.index }}">
-              {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+        <ul class="gallery__track" data-cz-gallery-track role="list">
+          {%- for media in product.media -%}
+            <li class="gallery__slide" data-media-id="{{ media.id }}">
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  {%- liquid
+                    assign img_loading = 'lazy'
+                    if forloop.first
+                      assign img_loading = 'eager'
+                    endif
+                  -%}
+                  {{
+                    media
+                    | image_url: width: 1400
+                    | image_tag:
+                      loading: img_loading,
+                      widths: '400, 600, 800, 1000, 1400',
+                      sizes: '(min-width: 990px) 55vw, 100vw',
+                      alt: media.alt
+                      | default: p_title
+                  }}
+                {%- when 'video' -%}
+                  {{ media | video_tag: controls: true, playsinline: true, preload: 'metadata' }}
+                {%- when 'external_video' -%}
+                  {{ media | external_video_tag }}
+                {%- else -%}
+                  {{ media | media_tag }}
+              {%- endcase -%}
+            </li>
+          {%- else -%}
+            <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="gallery__thumbs" data-cz-gallery-thumbs>
+          {%- for media in product.media -%}
+            <button type="button" data-cz-thumb class="gallery__thumb{% if forloop.first %} is-active{% endif %}" aria-label="{{ 'accessibility.slide' | t: index: forloop.index }}">
+              {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: media.alt | default: p_title }}
             </button>
           {%- endfor -%}
         </div>

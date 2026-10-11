@@ -512,11 +512,18 @@
     function paint() {
       var i = activeIndex();
       dots.forEach(function (d, n) { d.classList.toggle('is-active', n === i); d.setAttribute('aria-current', n === i ? 'true' : 'false'); });
-      thumbs.forEach(function (t, n) { t.classList.toggle('is-active', n === i); });
+      thumbs.forEach(function (t, n) {
+        var isActive = n === i;
+        t.classList.toggle('is-active', isActive);
+        if (isActive && typeof t.scrollIntoView === 'function') {
+          t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+      });
       ticking = false;
     }
     function go(i) {
       if (slides[i]) scrollToSlide(slides[i]);
+      thumbs.forEach(function (t, n) { t.classList.toggle('is-active', n === i); });
     }
     track.addEventListener('scroll', function () {
       if (!ticking) { ticking = true; window.requestAnimationFrame(paint); }
