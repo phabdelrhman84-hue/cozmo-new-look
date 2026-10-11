@@ -24,6 +24,52 @@
         "tick_3": ""
       }
     },
+    "why": {
+      "type": "cz-why-us",
+      "blocks": {
+        "w1": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "أصلي 100%",
+            "text": "منتجات أصلية مستوردة مباشرة من كوريا"
+          }
+        },
+        "w2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "توصيل سريع",
+            "text": "توصيل لجميع محافظات مصر"
+          }
+        },
+        "w3": {
+          "type": "item",
+          "settings": {
+            "icon": "star",
+            "title": "جودة مضمونة",
+            "text": "نختبر كل منتج قبل إضافته"
+          }
+        },
+        "w4": {
+          "type": "item",
+          "settings": {
+            "icon": "heart",
+            "title": "دعم متميز",
+            "text": "فريق متخصص لمساعدتك في الاختيار"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4"
+      ],
+      "settings": {
+        "heading": ""
+      }
+    },
     "concerns": {
       "type": "cz-concerns",
       "blocks": {
@@ -98,9 +144,10 @@
     },
     "promo": {
       "type": "cz-promo-strip",
+      "disabled": true,
       "settings": {
-        "title": "شحن مجاني من أول أوردر لكل المحافظات",
-        "subtitle": "اطلبي دلوقتي بدون حد أدنى · الدفع عند الاستلام",
+        "title": "شحن مجاني فوق [threshold]",
+        "subtitle": "كمّلي روتينك ووفّري الشحن",
         "link": "",
         "icon": "truck"
       }
@@ -115,6 +162,16 @@
         "show_view_all": true
       }
     },
+    "cz_featured_collection_RiLcAR": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "Balea products",
+        "subheading": "",
+        "collection": "balea",
+        "limit": 6,
+        "show_view_all": true
+      }
+    },
     "routines": {
       "type": "cz-routines",
       "settings": {
@@ -122,52 +179,6 @@
         "subheading": "اخترناهم مع بعض عشان النتيجة تبان أسرع",
         "collection": "",
         "limit": 6
-      }
-    },
-    "why": {
-      "type": "cz-why-us",
-      "blocks": {
-        "w1": {
-          "type": "item",
-          "settings": {
-            "icon": "shield",
-            "title": "أصلي 100%",
-            "text": "منتجات أصلية مستوردة مباشرة من كوريا"
-          }
-        },
-        "w2": {
-          "type": "item",
-          "settings": {
-            "icon": "truck",
-            "title": "شحن مجاني سريع",
-            "text": "مجاني من أول أوردر لجميع محافظات مصر"
-          }
-        },
-        "w3": {
-          "type": "item",
-          "settings": {
-            "icon": "star",
-            "title": "جودة مضمونة",
-            "text": "نختبر كل منتج قبل إضافته"
-          }
-        },
-        "w4": {
-          "type": "item",
-          "settings": {
-            "icon": "heart",
-            "title": "دعم متميز",
-            "text": "فريق متخصص لمساعدتك في الاختيار"
-          }
-        }
-      },
-      "block_order": [
-        "w1",
-        "w2",
-        "w3",
-        "w4"
-      ],
-      "settings": {
-        "heading": ""
       }
     },
     "pharmacist": {
@@ -193,6 +204,7 @@
     "promo",
     "bestsellers",
     "routines",
+    "cz_featured_collection_RiLcAR",
     "pharmacist",
     "reviews"
   ]
