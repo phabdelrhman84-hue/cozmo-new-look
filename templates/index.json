@@ -55,7 +55,7 @@
           "type": "item",
           "settings": {
             "icon": "heart",
-            "title": "دعم متميز",
+            "title": "دعم صيدلانى متميز",
             "text": "فريق متخصص لمساعدتك في الاختيار"
           }
         }
@@ -67,7 +67,7 @@
         "w4"
       ],
       "settings": {
-        "heading": ""
+        "heading": "ليه cozmo station ؟"
       }
     },
     "concerns": {
@@ -209,13 +209,13 @@
   },
   "order": [
     "hero",
-    "why",
     "concerns",
     "promo",
     "bestsellers",
     "routines",
     "cz_featured_collection_RiLcAR",
     "cz_featured_collection_qtQaHb",
+    "why",
     "pharmacist",
     "reviews"
   ]
