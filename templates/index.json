@@ -162,16 +162,6 @@
         "show_view_all": true
       }
     },
-    "cz_featured_collection_RiLcAR": {
-      "type": "cz-featured-collection",
-      "settings": {
-        "heading": "Balea products",
-        "subheading": "",
-        "collection": "balea",
-        "limit": 6,
-        "show_view_all": true
-      }
-    },
     "routines": {
       "type": "cz-routines",
       "settings": {
@@ -179,6 +169,26 @@
         "subheading": "اخترناهم مع بعض عشان النتيجة تبان أسرع",
         "collection": "",
         "limit": 6
+      }
+    },
+    "cz_featured_collection_RiLcAR": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "Korean products",
+        "subheading": "",
+        "collection": "korean-products",
+        "limit": 4,
+        "show_view_all": true
+      }
+    },
+    "cz_featured_collection_qtQaHb": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "Balea products",
+        "subheading": "",
+        "collection": "balea",
+        "limit": 4,
+        "show_view_all": true
       }
     },
     "pharmacist": {
@@ -205,6 +215,7 @@
     "bestsellers",
     "routines",
     "cz_featured_collection_RiLcAR",
+    "cz_featured_collection_qtQaHb",
     "pharmacist",
     "reviews"
   ]
