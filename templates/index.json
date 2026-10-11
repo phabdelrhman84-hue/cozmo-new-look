@@ -157,8 +157,8 @@
       "settings": {
         "heading": "الأكثر مبيعًا",
         "subheading": "",
-        "collection": "",
-        "limit": 4,
+        "collection": "cleansers",
+        "limit": 6,
         "show_view_all": true
       }
     },
@@ -177,7 +177,7 @@
         "heading": "Korean products",
         "subheading": "",
         "collection": "korean-products",
-        "limit": 4,
+        "limit": 6,
         "show_view_all": true
       }
     },
@@ -187,7 +187,7 @@
         "heading": "Balea products",
         "subheading": "",
         "collection": "balea",
-        "limit": 4,
+        "limit": 6,
         "show_view_all": true
       }
     },
