@@ -289,8 +289,18 @@ s { color: var(--cz-strike); }
 /* ---------- Price ---------- */
 .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
 .price__current { font-family: var(--cz-font-display); font-weight: 700; }
-.price--lg .price__current { font-size: 28px; }
-.price--lg s { font-size: 16px; }
+.price--lg .price__current { font-size: 26px; }
+.price--lg s { font-size: 15px; }
+.price__save-badge {
+  background: var(--cz-blush);
+  color: var(--cz-primary);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+}
 
 /* ---------- Free shipping bar ---------- */
 .ship-bar { border-radius: 14px; background: var(--cz-beige); padding: 10px 14px; display: flex; flex-direction: column; gap: 7px; }
@@ -510,7 +520,7 @@ s { color: var(--cz-strike); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 10px;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -565,11 +575,11 @@ s { color: var(--cz-strike); }
 
 .gallery__thumb,
 .gallery__thumbs button {
-  width: 58px;
-  height: 70px;
-  min-width: 58px;
-  padding: 5px;
-  border-radius: 20px;
+  width: 62px;
+  height: 74px;
+  min-width: 62px;
+  padding: 4px;
+  border-radius: 18px;
   border: 1.5px solid #E5E7EB;
   background: #FFFFFF;
   display: flex;

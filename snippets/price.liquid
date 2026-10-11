@@ -18,6 +18,8 @@
   <strong class="price__current" data-cz-price>{{ price | money_without_trailing_zeros }}</strong>
   {%- if compare > price -%}
     <s data-cz-compare>{{ compare | money_without_trailing_zeros }}</s>
+    {%- assign off_pct = compare | minus: price | times: 100 | divided_by: compare -%}
+    {%- if off_pct > 0 -%}<span class="price__save-badge">وفر {{ off_pct }}%</span>{%- endif -%}
   {%- elsif size == 'lg' -%}
     <s data-cz-compare hidden></s>
   {%- endif -%}
