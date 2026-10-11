@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -14,7 +23,7 @@
         "show_trust": true,
         "description_open": false,
         "complementary_limit": 2,
-        "shipping_text": "<p>الشحن لكل المحافظات، والدفع عند الاستلام. الاسترجاع خلال 14 يوم.</p>",
+        "shipping_text": "<p><strong>شحن مجاني لجميع محافظات مصر</strong> من أول قطعة وبدون أي حد أدنى للطلب. التوصيل سريع خلال 2-4 أيام عمل، والدفع عند الاستلام بعد معاينة الشحنة والتأكد منها. الاسترجاع والاستبدال متاح بكل سهولة خلال 14 يوم.</p>",
         "authenticity_text": "<p>تقدري تتأكدي من الباتش كود المطبوع على العبوة، ولو عندك أي سؤال ابعتيلنا صورة على واتساب وهنساعدك.</p>"
       }
     },

@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "shipping_fee": 75,
-    "free_shipping_threshold": 1500,
+    "shipping_fee": 0,
+    "free_shipping_threshold": 0,
     "cod_note": "الدفع عند الاستلام",
     "two_units_discount": 10,
     "whatsapp_message": "أهلًا، محتاجة استشارة في روتيني",
@@ -41,8 +41,8 @@
   },
   "presets": {
     "Default": {
-      "shipping_fee": 75,
-      "free_shipping_threshold": 1500,
+      "shipping_fee": 0,
+      "free_shipping_threshold": 0,
       "cod_note": "الدفع عند الاستلام",
       "two_units_discount": 10,
       "whatsapp_message": "أهلًا، محتاجة استشارة في روتيني",

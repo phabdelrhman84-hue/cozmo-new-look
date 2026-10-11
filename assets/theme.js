@@ -339,6 +339,7 @@
 
     function updateShipBar() {
       if (!shipBar) return;
+      if (shipBar.getAttribute('data-always-free') === 'true') return;
       var threshold = parseInt(shipBar.getAttribute('data-threshold'), 10) || 0;
       if (!threshold) return;
       var base = typeof cz.cartTotal === 'number' ? cz.cartTotal : parseInt(shipBar.getAttribute('data-cart-total'), 10) || 0;

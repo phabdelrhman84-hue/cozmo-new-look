@@ -442,7 +442,8 @@ s { color: var(--cz-strike); }
 @media (min-width: 990px) { .product__title { font-size: 32px; } }
 .product__for { font-size: 15px; color: var(--cz-text-muted); }
 .product__rating { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--cz-text-muted); text-decoration: none; }
-.product__shipnote { font-size: 13px; color: var(--cz-text-muted); }
+.product__shipnote { font-size: 13px; color: var(--cz-text-muted); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.shipnote--free { color: var(--cz-olive); font-weight: 700; background: rgba(92, 107, 77, 0.12); padding: 2px 8px; border-radius: 6px; font-size: 12.5px; }
 
 .variant-picker { border: 0; padding: 0; margin: 6px 0 0; display: flex; flex-direction: column; gap: 8px; }
 .variant-picker legend { font-size: 14px; font-weight: 700; margin-bottom: 8px; padding: 0; }

@@ -143,7 +143,7 @@
         {%- if settings.shipping_fee > 0 -%}
           <p class="product__shipnote">{{ 'products.plus_shipping' | t: fee: settings.shipping_fee }} · {{ settings.cod_note }}</p>
         {%- else -%}
-          <p class="product__shipnote">{{ settings.cod_note }}</p>
+          <p class="product__shipnote"><span class="shipnote--free">{{ 'products.free_shipping' | t }}</span> · {{ settings.cod_note }}</p>
         {%- endif -%}
       </div>
 
@@ -414,7 +414,7 @@
       "type": "richtext",
       "id": "shipping_text",
       "label": "Shipping & returns",
-      "default": "<p>الشحن لكل المحافظات، والدفع عند الاستلام. الاسترجاع خلال 14 يوم.</p>"
+      "default": "<p><strong>شحن مجاني لجميع محافظات مصر</strong> من أول قطعة وبدون أي حد أدنى للطلب. التوصيل سريع خلال 2-4 أيام عمل، والدفع عند الاستلام بعد معاينة الشحنة والتأكد منها. الاسترجاع والاستبدال متاح خلال 14 يوم.</p>"
     },
     {
       "type": "richtext",

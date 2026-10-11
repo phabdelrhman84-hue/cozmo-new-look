@@ -57,7 +57,8 @@
           soldOut: {{ 'products.sold_out' | t | json }},
           addToCart: {{ 'products.add_to_cart' | t | json }},
           remaining: {{ 'cart.free_shipping_remaining_html' | t: amount: '[amount]' | json }},
-          unlocked: {{ 'cart.free_shipping_unlocked' | t | json }}
+          unlocked: {{ 'cart.free_shipping_unlocked' | t | json }},
+          alwaysFree: {{ 'cart.free_shipping_all_orders' | t | json }}
         }
       };
     </script>
