@@ -482,7 +482,7 @@ s { color: var(--cz-strike); }
   border-radius: 24px;
   border: 1px solid #ECECEC;
   overflow: hidden;
-  margin: 8px 16px 0;
+  margin: 8px 12px 0;
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
   aspect-ratio: 1 / 1;
   width: auto;
@@ -709,6 +709,10 @@ s { color: var(--cz-strike); }
     padding-top: 36px;
   }
 }
+@media (max-width: 749px) {
+  .product-details { padding: 20px 12px 0; gap: 14px; }
+  .product__panel, .product__block { padding: 16px 14px; border-radius: 18px; }
+}
 
 .product__panel,
 .product__block {
@@ -793,28 +797,20 @@ s { color: var(--cz-strike); }
   display: block !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
-.rte h1, .rte h2, .rte h3, .rte h4 {
-  font-size: 17px !important;
-  font-weight: 700 !important;
-  line-height: 1.4 !important;
-  color: var(--cz-text) !important;
-  margin: 16px 0 8px !important;
-}
-.rte p {
-  font-size: 14.5px !important;
-  line-height: 1.7 !important;
-  color: var(--cz-text-muted) !important;
-  margin-bottom: 12px !important;
-}
-.rte div {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-.rte table {
-  width: 100% !important;
-  border-collapse: collapse;
-  margin: 12px 0;
-}
+/* === PDP description: theme styles apply only to plain (non-inline-styled) text === */
+.rte p:not([style]) { font-size: 14.5px; line-height: 1.75; color: var(--cz-text-muted); margin: 0 0 12px; }
+.rte :is(h2,h3,h4):not([style]) { font-size: 17px; font-weight: 700; line-height: 1.4; color: var(--cz-text); margin: 16px 0 8px; }
+/* Big inline headings scale down on phones (sizes only, never colors) */
+.rte h1 { font-size: clamp(19px, 5.2vw, 26px) !important; line-height: 1.45 !important; margin: 4px 0 14px !important; }
+.rte h2[style] { font-size: clamp(17px, 4.6vw, 21px) !important; line-height: 1.45 !important; }
+.rte h2[data-desc-title] { font-size: clamp(19px, 5.2vw, 26px) !important; line-height: 1.45 !important; margin: 4px 0 14px !important; }
+.rte [style*="font-size: 30px"], .rte [style*="font-size: 32px"] { font-size: clamp(20px, 6vw, 28px) !important; line-height: 1.35 !important; }
+/* Inner boxes, grids and badges fit 390px screens */
+.rte div[style*="padding: 20px"], .rte div[style*="padding: 25px"] { padding: 16px !important; }
+.rte div[style*="minmax(200px"] { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important; gap: 10px !important; }
+.rte div[style*="min-width: 150px"] { min-width: 120px !important; }
+.rte table { table-layout: fixed; }
+.rte * { max-width: 100%; }
 
 .mini-card { border-radius: var(--cz-radius-lg); background: #fff; box-shadow: var(--cz-shadow-soft); border: 0; padding: 10px; display: flex; align-items: center; gap: 12px; transition: transform .15s ease, box-shadow .15s ease; }
 .mini-card:hover { transform: translateY(-2px); box-shadow: var(--cz-shadow-medium); }

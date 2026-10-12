@@ -314,7 +314,7 @@
       {%- if product.description != blank -%}
         <details class="accordion"{% if section.settings.description_open %} open{% endif %}>
           <summary>{{ 'products.description' | t }} {% render 'icon', name: 'chevron', size: 18 %}</summary>
-          <div class="accordion__content rte">{{ product.description }}</div>
+          <div class="accordion__content rte">{{ product.description | replace: '<h1', '<h2 data-desc-title' | replace: '</h1>', '</h2>' }}</div>
         </details>
       {%- endif -%}
       {%- if product.metafields.custom.ingredients != blank -%}
@@ -377,6 +377,7 @@
       <button type="button" class="btn btn--primary" data-cz-buy="checkout" data-label="{{ section.settings.sticky_label | escape }}"{% unless current_variant.available %} aria-disabled="true"{% endunless %}>{{ section.settings.sticky_label | escape }}</button>
     </div>
   {%- endif -%}
+  <script type="application/json" data-cz-product-json>{{ product | json }}</script>
 </div>
 
 <script type="application/ld+json">
