@@ -86,6 +86,13 @@
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "9632565980934585849": {
+        "type": "shopify://apps/seo-hero-ai-audit-tool/blocks/structured-data/019efb32-e440-75ab-b554-2e6874eb1648",
+        "disabled": false,
+        "settings": {
+          "render_product_schema": true
+        }
       }
     }
   },
