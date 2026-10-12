@@ -76,7 +76,7 @@
           "type": "concern",
           "settings": {
             "label": "ترطيب عميق ونضارة",
-            "link": "shopify://collections/اشراقه-وتوحيد-لون-copy",
+            "link": "shopify://collections/hydration-barrier",
             "icon": "leaf",
             "tone": "skin"
           }
@@ -111,7 +111,7 @@
       "settings": {
         "heading": "الأكثر مبيعًا",
         "subheading": "",
-        "collection": "cleansers",
+        "collection": "best-sellers",
         "limit": 8,
         "show_view_all": true
       }
