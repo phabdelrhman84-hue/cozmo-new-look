@@ -366,6 +366,8 @@
     {%- endif -%}
 
     <div id="Reviews"></div>
+
+    {% render 'related-products-rail', product: product, limit: 8 %}
   </div>
 
   {%- if section.settings.show_sticky -%}

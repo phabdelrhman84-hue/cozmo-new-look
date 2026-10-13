@@ -68,7 +68,8 @@
     "quantity": "الكمية",
     "sale": "خصم",
     "whatsapp_product": "أهلًا، عندي سؤال عن {{ product }}",
-    "added_to_routine": "كمّليها مع"
+    "added_to_routine": "كمّليها مع",
+    "related_products": "منتجات قد تعجبك"
   },
   "cart": {
     "title": "سلتك",

@@ -1,0 +1,59 @@
+{%- comment -%}
+  Related Products Rail
+  Shows products from the same collection, excluding the current product.
+  Params:
+    product  (required) – the current product object
+    limit    (optional) – max cards to show, default 8
+{%- endcomment -%}
+{%- liquid
+  assign rail_limit = limit | default: 8
+
+  comment
+    Gather candidates: try primary collection first, then any collection.
+    Skip the current product and hidden/draft products.
+  endcomment
+
+  assign rail_collection = nil
+  assign rail_products    = nil
+
+  for col in product.collections
+    if col.products_count > 1
+      assign rail_collection = col
+      break
+    endif
+  endfor
+
+  if rail_collection != nil
+    assign rail_products = rail_collection.products
+  endif
+-%}
+
+{%- if rail_products != blank -%}
+  {%- liquid
+    assign has_items = false
+    for p in rail_products limit: 20
+      if p.id != product.id and p.available
+        assign has_items = true
+        break
+      endif
+    endfor
+  -%}
+  {%- if has_items -%}
+    <div class="related-rail" aria-label="{{ 'products.related_products' | t }}">
+      <h2 class="related-rail__title">{{ 'products.related_products' | t }}</h2>
+
+      <div class="related-rail__scroll" role="list">
+        {%- assign shown = 0 -%}
+        {%- for p in rail_products -%}
+          {%- if p.id == product.id -%}{%- continue -%}{%- endif -%}
+          {%- if p.available == false -%}{%- continue -%}{%- endif -%}
+          {%- if shown >= rail_limit -%}{%- break -%}{%- endif -%}
+          {%- assign shown = shown | plus: 1 -%}
+          <div class="related-rail__item" role="listitem">
+            {% render 'product-card', product: p, lazy: true %}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
