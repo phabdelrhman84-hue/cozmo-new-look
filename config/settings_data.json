@@ -13,6 +13,7 @@
     "free_shipping_threshold": 0,
     "cod_note": "الدفع عند الاستلام",
     "two_units_discount": 10,
+    "whatsapp_number": "201034068582",
     "whatsapp_message": "أهلًا، محتاجة استشارة في روتيني",
     "show_whatsapp_float": true,
     "cart_type": "drawer",
@@ -31,6 +32,9 @@
     "card_show_vendor": true,
     "card_show_rating": true,
     "card_quick_add": true,
+    "social_instagram": "https://www.instagram.com/cozmostation?fbclid=IwY2xjawU7UFZleHRuA2FlbQIxMABwZG9mAWJyaWQRMUQ5UWhKU3NtODBUaExlRHhzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeWu3fZm1g0gtgzw88sMl2gDl4rBzneF8wfSgQg4u3XwCMW9Qf-bOBnY4Z-ao_aem_ha7GIKGl7_cLpptmj9LQ4Q",
+    "social_facebook": "https://www.facebook.com/cozomstation",
+    "social_tiktok": "https://www.tiktok.com/@cozmostation",
     "sections": {
       "cart-drawer": {
         "type": "cart-drawer",
