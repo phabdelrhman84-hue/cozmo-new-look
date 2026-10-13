@@ -47,6 +47,7 @@
     },
     "related": {
       "type": "cz-related-products",
+      "disabled": true,
       "settings": {
         "heading": "ممكن يعجبك كمان",
         "subheading": "",
