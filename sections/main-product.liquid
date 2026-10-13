@@ -337,6 +337,7 @@
       {%- endif -%}
     </div>
 
+    {%- if product.metafields.custom.cozmo_tip != blank or product.description contains 'نصيح' or product.description contains 'نصائح' -%}{% render 'cozmo-tip', product: product %}{%- endif -%}
     {%- assign comps = product.metafields.custom.complementary_products.value -%}
     {%- if comps != blank and section.settings.complementary_limit > 0 -%}
       <div class="product__block">

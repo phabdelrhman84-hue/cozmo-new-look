@@ -1,0 +1,130 @@
+{%- comment -%}
+  "نصيحة من Cozmo Station" panel.
+  Finds the tip inside the product description and moves it into its own card
+  below the product details. Descriptions in the admin are NOT changed.
+  Source priority:
+    1) metafield custom.cozmo_tip (multi-line text, one paragraph per line) - rendered server-side
+    2) otherwise the tip is extracted from the description (patterns below)
+  Supported description patterns:
+    A) a colored box <div style="background:..."> whose heading is <strong>💡 نصيحة ... Cozmo Station:</strong>
+    B) a heading <h2/h3/h4>💡 نصيحة ... Cozmo Station:</h3> followed by content until the next heading
+  If no tip is found, the card stays hidden.
+{%- endcomment -%}
+{%- liquid
+  assign wa_number = settings.whatsapp_number | remove: '+' | remove: ' '
+  assign wa_text = 'عندي سؤال عن ' | append: product.title
+  assign tip_mf = product.metafields.custom.cozmo_tip.value
+-%}
+<div class="product__block cz-tip" data-cz-tip{% if tip_mf != blank %} data-cz-tip-static{% else %} hidden{% endif %}>
+  <div class="cz-tip__head">
+    <span class="cz-tip__icon" aria-hidden="true">💡</span>
+    <h2 class="cz-tip__title">نصيحة احترافية من Cozmo Station</h2>
+  </div>
+  <div class="cz-tip__body" data-cz-tip-body>
+    {%- if tip_mf != blank -%}
+      {%- assign tip_paras = tip_mf | newline_to_br | split: '<br />' -%}
+      {%- for line in tip_paras -%}
+        {%- assign l = line | strip -%}
+        {%- if l != blank -%}<p>{{ l | escape }}</p>{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+  {%- if wa_number != blank -%}
+    <a class="cz-tip__ask" href="https://wa.me/{{ wa_number }}?text={{ wa_text | url_encode }}" target="_blank" rel="noopener">
+      {% render 'icon', name: 'chat', size: 16 %}
+      <span>عندك سؤال عن استخدامه؟ اسألي الصيدلي</span>
+    </a>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var card = document.currentScript.previousElementSibling;
+    if (!card || !card.hasAttribute('data-cz-tip')) return;
+    if (card.hasAttribute('data-cz-tip-static')) return; /* tip comes from the custom.cozmo_tip metafield */
+    var scope = card.closest('.product-details') || document;
+    var rte = scope.querySelector('.accordion__content.rte');
+    if (!rte) return;
+
+    var HEAD = /(نصيح[ةه]|نصائح)[^:]{0,40}(Cozmo|كوزمو)/i;
+    var BARE = /^[\s💡✨🌟]*(نصيح[ةه]|نصائح)[\s:：]*$/;
+    var heads = rte.querySelectorAll('strong, b, h2, h3, h4');
+    var head = null;
+    /* pass 1: a heading that names Cozmo Station; pass 2: a bare "نصيحة:" heading */
+    [HEAD, BARE].some(function (rx) {
+      for (var i = 0; i < heads.length; i++) {
+        var t = heads[i].textContent.trim();
+        if (t.length > 80) continue; /* skip big wrappers from broken HTML */
+        if (rx.test(t)) { head = heads[i]; return true; }
+      }
+      return false;
+    });
+    if (!head) return;
+
+    var nodes = [];
+    var box = head.closest('div[style*="background"]');
+    if (box && rte.contains(box) && box !== rte && !box.querySelector('h1, h2, h3')) {
+      /* Pattern A: the whole colored box is the tip */
+      head.remove();
+      nodes = [box];
+    } else if (/^H[2-4]$/.test(head.tagName)) {
+      /* Pattern B: heading + following siblings until the next heading */
+      var n = head.nextElementSibling;
+      while (n && !/^H[1-4]$/.test(n.tagName)) { var next = n.nextElementSibling; nodes.push(n); n = next; }
+      head.remove();
+    } else {
+      /* Heading inside a plain paragraph: take that paragraph */
+      var p = head.closest('p, div');
+      if (!p || p === rte) return;
+      head.remove();
+      nodes = [p];
+    }
+    if (!nodes.length) return;
+
+    var body = card.querySelector('[data-cz-tip-body]');
+    nodes.forEach(function (el) {
+      /* unwrap the colored box so the tip uses the theme's look */
+      if (el.tagName === 'DIV' && el.getAttribute('style')) {
+        Array.prototype.slice.call(el.childNodes).forEach(function (c) { body.appendChild(c); });
+        if (el.parentNode) el.parentNode.removeChild(el);
+      } else {
+        body.appendChild(el);
+      }
+    });
+    body.querySelectorAll('[style]').forEach(function (el) { el.removeAttribute('style'); });
+    /* drop leading <br>s left behind by the removed heading */
+    var first = body.querySelector('p');
+    while (first && first.firstChild && (first.firstChild.nodeName === 'BR' || (first.firstChild.nodeType === 3 && !first.firstChild.textContent.trim()))) {
+      first.removeChild(first.firstChild);
+    }
+    if (body.textContent.trim().length < 10) return;
+    card.hidden = false;
+  })();
+</script>
+
+<style>
+  .cz-tip {
+    background: linear-gradient(135deg, rgba(163,177,138,.16), rgba(242,196,214,.22));
+    border: 0;
+    border-inline-start: 4px solid var(--cz-sage-dark, #5C6B4D);
+    gap: 10px;
+  }
+  .cz-tip__head { display: flex; align-items: center; gap: 10px; }
+  .cz-tip__icon {
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    background: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px;
+    box-shadow: var(--cz-shadow-soft);
+  }
+  .cz-tip .cz-tip__title { font-size: 17px; font-weight: 800; color: var(--cz-sage-dark, #5C6B4D); margin: 0; }
+  .cz-tip__body { font-size: 14.5px; line-height: 1.85; color: var(--cz-text); }
+  .cz-tip__body p { margin: 0 0 8px; }
+  .cz-tip__body p:last-child { margin-bottom: 0; }
+  .cz-tip__body strong { color: var(--cz-text); font-weight: 700; }
+  .cz-tip__body ul, .cz-tip__body ol { padding-inline-start: 20px; margin: 6px 0; }
+  .cz-tip__ask {
+    align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13.5px; font-weight: 700; color: var(--cz-sage-dark, #5C6B4D); text-decoration: none;
+    background: #fff; border-radius: 999px; padding: 8px 14px; box-shadow: var(--cz-shadow-soft);
+  }
+  .cz-tip__ask:hover { color: var(--cz-pink-text, #A35D78); }
+</style>
