@@ -46,13 +46,12 @@
       "settings": {}
     },
     "related": {
-      "type": "cz-featured-collection",
+      "type": "cz-related-products",
       "settings": {
         "heading": "ممكن يعجبك كمان",
         "subheading": "",
-        "collection": "",
-        "limit": 4,
-        "show_view_all": false
+        "limit": 8,
+        "intent": "related"
       }
     }
   },
