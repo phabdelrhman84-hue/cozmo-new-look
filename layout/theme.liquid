@@ -26,8 +26,7 @@
       {{ page_title }}
       {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
       {%- if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+    </title>{%- assign cs_title_check = page_title | downcase -%}{%- unless cs_title_check contains 'cozmo' %} &ndash; {{ shop.name }}{% endunless -%}
 
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
