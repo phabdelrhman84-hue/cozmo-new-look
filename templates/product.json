@@ -17,7 +17,7 @@
         "show_sticky": true,
         "show_bundle_offer": true,
         "show_two_units": true,
-        "default_offer": "bundle",
+        "default_offer": "single",
         "flag_label": "الأوفر",
         "show_ship_bar": true,
         "show_trust": true,
