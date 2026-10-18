@@ -1,0 +1,100 @@
+{%- comment -%}
+  "تسوقي حسب الخصم" — one card per discount tier, ordered as the blocks are ordered
+  (lowest discount first). Each card links to an automated collection
+  (sale-10 / sale-20 / sale-35 by default) that filters products by tag.
+  Empty collections are hidden automatically.
+{%- endcomment -%}
+<div class="page-width section--spaced cz-tiers">
+  <div class="section-head">
+    <div>
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="section-sub">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+    </div>
+  </div>
+
+  <ul class="cz-tiers__row" role="list">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign c = collections[block.settings.handle]
+        if c == blank or c.products_count == 0
+          continue
+        endif
+        assign is_top = false
+        if forloop.last
+          assign is_top = true
+        endif
+      -%}
+      <li class="cz-tiers__item" {{ block.shopify_attributes }}>
+        <a class="cz-tier{% if is_top %} cz-tier--top{% endif %}" href="{{ c.url }}">
+          <span class="cz-tier__label">{{ block.settings.label_top | escape }}</span>
+          <span class="cz-tier__pct">{{ block.settings.percent | escape }}</span>
+          <span class="cz-tier__count">{{ c.products_count }} منتج</span>
+          <span class="cz-tier__cta">تسوّقي ←</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .cz-tiers__row {
+    list-style: none; margin: 0; padding: 4px 0 8px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px;
+  }
+  .cz-tiers__item { min-width: 0; }
+  .cz-tier {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    min-height: 150px; padding: 16px 8px; border-radius: var(--cz-radius-lg, 16px);
+    background: #fff; box-shadow: var(--cz-shadow-soft); text-decoration: none; color: var(--cz-text);
+    border: 1.5px solid var(--cz-beige-dark, #E8DFD5); text-align: center;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .cz-tier:hover { transform: translateY(-2px); box-shadow: var(--cz-shadow-medium); border-color: var(--cz-primary); }
+  .cz-tier__label { font-size: 13px; font-weight: 700; color: var(--cz-sage-dark, #5C6B4D); }
+  .cz-tier__pct { font-size: 22px; font-weight: 800; line-height: 1.1; white-space: nowrap; color: var(--cz-pink-text, #A35D78); direction: ltr; unicode-bidi: isolate; }
+  .cz-tier__count { font-size: 12.5px; color: var(--cz-text-muted); }
+  .cz-tier__cta { margin-top: 6px; font-size: 12.5px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: var(--cz-blush-soft, #fbeef4); color: var(--cz-text); }
+  .cz-tier--top { background: var(--cz-sage-dark, #5C6B4D); border-color: var(--cz-sage-dark, #5C6B4D); color: #fff; position: relative; overflow: hidden; }
+  .cz-tier--top::before { content: ''; position: absolute; inset-inline: 0; top: 0; height: 6px; background: var(--cz-primary, #E8A0BF); }
+  .cz-tier--top .cz-tier__label, .cz-tier--top .cz-tier__pct, .cz-tier--top .cz-tier__count { color: #fff; }
+  .cz-tier--top .cz-tier__cta { background: #fff; color: var(--cz-text); }
+  @media (min-width: 750px) {
+    .cz-tiers__row { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .cz-tier { padding: 18px 12px; }
+    .cz-tier { min-height: 190px; }
+    .cz-tier__pct { font-size: 42px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shop by discount",
+  "class": "section-discount-tiers",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "تسوّقي حسب الخصم" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "اختاري نسبة الخصم وشوفي المنتجات اللي عليها" }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Discount tier",
+      "settings": [
+        { "type": "text", "id": "label_top", "label": "Small label", "default": "خصم" },
+        { "type": "text", "id": "percent", "label": "Discount text", "default": "10–15%" },
+        { "type": "text", "id": "handle", "label": "Collection handle", "default": "sale-10", "info": "Automated collection that filters by tag, e.g. sale-10 / sale-20 / sale-35. Order blocks from lowest to highest discount." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Shop by discount",
+      "blocks": [
+        { "type": "tier", "settings": { "label_top": "خصم", "percent": "10–15%", "handle": "sale-10" } },
+        { "type": "tier", "settings": { "label_top": "خصم", "percent": "16–20%", "handle": "sale-20" } },
+        { "type": "tier", "settings": { "label_top": "أقوى خصم", "percent": "35%", "handle": "sale-35" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
