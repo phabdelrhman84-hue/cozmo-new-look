@@ -24,6 +24,65 @@
         "tick_3": ""
       }
     },
+    "cz_discount_tiers_RWbhcT": {
+      "type": "cz-discount-tiers",
+      "blocks": {
+        "tier_aHUY6K": {
+          "type": "tier",
+          "settings": {
+            "label_top": "خصم",
+            "percent": "10–15%",
+            "handle": "sale-10"
+          }
+        },
+        "tier_7fGNEB": {
+          "type": "tier",
+          "settings": {
+            "label_top": "خصم",
+            "percent": "16–20%",
+            "handle": "sale-20"
+          }
+        },
+        "tier_QUDdmm": {
+          "type": "tier",
+          "settings": {
+            "label_top": "أقوى خصم",
+            "percent": "35%",
+            "handle": "sale-35"
+          }
+        }
+      },
+      "block_order": [
+        "tier_aHUY6K",
+        "tier_7fGNEB",
+        "tier_QUDdmm"
+      ],
+      "name": "Shop by discount",
+      "settings": {
+        "heading": "تسوّقي حسب الخصم",
+        "subheading": "اختاري نسبة الخصم وشوفي المنتجات اللي عليها"
+      }
+    },
+    "promo": {
+      "type": "cz-promo-strip",
+      "disabled": true,
+      "settings": {
+        "title": "شحن مجاني فوق [threshold]",
+        "subtitle": "كمّلي روتينك ووفّري الشحن",
+        "link": "",
+        "icon": "truck"
+      }
+    },
+    "bestsellers": {
+      "type": "cz-featured-collection",
+      "settings": {
+        "heading": "الأكثر مبيعًا",
+        "subheading": "",
+        "collection": "best-sellers",
+        "limit": 8,
+        "show_view_all": true
+      }
+    },
     "concerns": {
       "type": "cz-concerns",
       "blocks": {
@@ -94,26 +153,6 @@
         "heading": "إختارى الى بشرتك وشعرك محتاجينه",
         "link_label": "الكل",
         "link": ""
-      }
-    },
-    "promo": {
-      "type": "cz-promo-strip",
-      "disabled": true,
-      "settings": {
-        "title": "شحن مجاني فوق [threshold]",
-        "subtitle": "كمّلي روتينك ووفّري الشحن",
-        "link": "",
-        "icon": "truck"
-      }
-    },
-    "bestsellers": {
-      "type": "cz-featured-collection",
-      "settings": {
-        "heading": "الأكثر مبيعًا",
-        "subheading": "",
-        "collection": "best-sellers",
-        "limit": 8,
-        "show_view_all": true
       }
     },
     "routines": {
@@ -205,53 +244,14 @@
       "settings": {
         "heading": "آراء عميلاتنا"
       }
-    },
-    "cz_discount_tiers_RWbhcT": {
-      "type": "cz-discount-tiers",
-      "blocks": {
-        "tier_aHUY6K": {
-          "type": "tier",
-          "settings": {
-            "label_top": "خصم",
-            "percent": "10–15%",
-            "handle": "sale-10"
-          }
-        },
-        "tier_7fGNEB": {
-          "type": "tier",
-          "settings": {
-            "label_top": "خصم",
-            "percent": "16–20%",
-            "handle": "sale-20"
-          }
-        },
-        "tier_QUDdmm": {
-          "type": "tier",
-          "settings": {
-            "label_top": "أقوى خصم",
-            "percent": "35%",
-            "handle": "sale-35"
-          }
-        }
-      },
-      "block_order": [
-        "tier_aHUY6K",
-        "tier_7fGNEB",
-        "tier_QUDdmm"
-      ],
-      "name": "Shop by discount",
-      "settings": {
-        "heading": "تسوّقي حسب الخصم",
-        "subheading": "اختاري نسبة الخصم وشوفي المنتجات اللي عليها"
-      }
     }
   },
   "order": [
     "hero",
     "cz_discount_tiers_RWbhcT",
-    "concerns",
     "promo",
     "bestsellers",
+    "concerns",
     "routines",
     "cz_featured_collection_RiLcAR",
     "cz_featured_collection_qtQaHb",
