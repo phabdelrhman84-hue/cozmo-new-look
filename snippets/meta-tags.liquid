@@ -27,3 +27,77 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_description | escape }}">
+
+{%- comment -%}
+  JSON-LD for search engines, rendered in <head>.
+  - Home: Organization + WebSite (with sitelinks search box)
+  - Product / collection: BreadcrumbList matching the visible breadcrumb
+  Product data itself comes from `product | structured_data` in main-product.
+{%- endcomment -%}
+{%- liquid
+  assign same_as = ''
+  assign social_keys = 'social_instagram,social_facebook,social_tiktok' | split: ','
+  for key in social_keys
+    assign social_url = settings[key] | split: '?' | first | strip
+    if social_url != blank
+      assign same_as = same_as | append: social_url | append: '|'
+    endif
+  endfor
+  assign same_as = same_as | split: '|'
+-%}
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": {{ shop.name | strip | json }},
+      "url": {{ request.origin | append: routes.root_url | json }}
+      {%- if settings.logo != blank -%},
+        "logo": {{ settings.logo | image_url: width: 600 | prepend: 'https:' | json }}
+      {%- endif -%}
+      {%- if same_as.size > 0 -%},
+        "sameAs": {{ same_as | json }}
+      {%- endif %}
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | strip | json }},
+      "url": {{ request.origin | append: routes.root_url | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": {{ request.origin | append: routes.search_url | append: '?q={search_term_string}' | json }}
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+{%- elsif request.page_type == 'product' -%}
+  {%- assign p_title = product.metafields.custom.short_title.value | default: product.title -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": {{ request.origin | append: routes.root_url | json }} },
+        { "@type": "ListItem", "position": 2, "name": "المنتجات", "item": {{ request.origin | append: routes.all_products_collection_url | json }} },
+        { "@type": "ListItem", "position": 3, "name": {{ p_title | strip_html | json }}, "item": {{ request.origin | append: product.url | json }} }
+      ]
+    }
+  </script>
+{%- elsif request.page_type == 'collection' and collection.handle != blank -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": {{ request.origin | append: routes.root_url | json }} },
+        { "@type": "ListItem", "position": 2, "name": {{ collection.title | strip_html | json }}, "item": {{ request.origin | append: collection.url | json }} }
+      ]
+    }
+  </script>
+{%- endif -%}
