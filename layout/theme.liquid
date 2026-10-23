@@ -10,12 +10,11 @@
   endif
 -%}
 <html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if is_rtl %}rtl{% else %}ltr{% endif %}">
-  <meta name="google-site-verification" content="fR1tS_xpnPgfGbKyO1z0f9JZfYTJZSBFKigxm1FexGE" />
-  
-  <head><meta name="google-site-verification" content="fR1tS_xpnPgfGbKyO1z0f9JZfYTJZSBFKigxm1FexGE" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="fR1tS_xpnPgfGbKyO1z0f9JZfYTJZSBFKigxm1FexGE" />
     <meta name="msvalidate.01" content="30AA8D99E75D1C29D9B1FBC043777AE9"  />
   {%- if current_tags or template contains 'search' or request.path contains '/collections/vendors' or request.path contains '/collections/types' -%}<meta name="robots" content="noindex, follow">{%- endif -%}
-    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="{{ settings.color_primary }}">
@@ -35,6 +34,7 @@
     {%- endif -%}
 
     {% render 'meta-tags' %}
+    {% render 'structured-data' %}
 
     {{ content_for_header }}
 
